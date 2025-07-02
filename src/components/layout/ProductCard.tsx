@@ -1,10 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Product } from "@/lib/mockData";
+import { WordPressPost } from "@/lib/mockData";
 
 interface ProductCardProps {
-  product: Product;
+  product: WordPressPost;
 }
 
 // Format date to display format like "02 Jul"
@@ -23,8 +23,8 @@ export default function ProductCard({ product }: ProductCardProps) {
       {/* Image Container with Date Label */}
       <div className="relative bg-black aspect-[4/3]">
         <Image
-          src={product.image}
-          alt={product.title}
+          src={product._embedded?.['wp:featuredmedia']?.[0]?.source_url || "/home-n.png"}
+          alt={product.title.rendered}
           fill
           className="object-cover"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -45,14 +45,14 @@ export default function ProductCard({ product }: ProductCardProps) {
             href={`/product?slug=${product.slug}`}
             className="text-blue-600 hover:text-blue-700 font-medium text-lg leading-tight transition-colors"
           >
-            {product.title}
+            {product.title.rendered}
           </Link>
         </h3>
         
         {/* Description (if available) */}
-        {product.description && (
+        {product.excerpt.rendered && (
           <p className="text-gray-600 text-sm mb-4 line-clamp-2">
-            {product.description}
+            {product.excerpt.rendered.replace(/<[^>]*>/g, '')}
           </p>
         )}
         
