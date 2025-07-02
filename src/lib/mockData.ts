@@ -91,6 +91,21 @@ export const mockProducts: Product[] = [
     slug: "76448-fawkes-dumbledores-phoenix-gc1095", 
     category: "Harry Potter",
     description: "Alternative build guide for Fawkes the Phoenix."
+  },
+  {
+    id: "7",
+    title: "72037 Mario Kart Racing Set",
+    image: "/home-n.png",
+    date: "2024-08-15",
+    slug: "72037-mario-kart-racing-set",
+    category: "Super Mario",
+    description: "Build the ultimate Mario Kart racing experience with this detailed instruction set.",
+    fullDescription: "Complete building instructions for the 72037 Mario Kart Racing Set. This exciting set features Mario's iconic kart with authentic details and racing accessories. Perfect for Mario fans and LEGO racing enthusiasts alike.",
+    downloadLinks: {
+      pdf: "/72037 Mario Kart.pdf",
+      instructions: "/72037 Mario Kart.pdf"
+    },
+    tags: ["72037", "Mario Kart", "Super Mario", "Racing", "Nintendo"]
   }
 ];
 
@@ -120,6 +135,11 @@ export const mockRecentPosts: RecentPost[] = [
     id: "5",
     title: "76448 Fawkes: Dumbledore's Phoenix GC1095",
     slug: "76448-fawkes-dumbledores-phoenix-gc1095"
+  },
+  {
+    id: "6",
+    title: "72037 Mario Kart Racing Set",
+    slug: "72037-mario-kart-racing-set"
   }
 ];
 
