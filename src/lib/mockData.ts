@@ -8,6 +8,12 @@ export interface Product {
   slug: string;
   category: string;
   description?: string;
+  fullDescription?: string;
+  downloadLinks?: {
+    pdf?: string;
+    instructions?: string;
+  };
+  tags?: string[];
 }
 
 export interface RecentPost {
@@ -33,7 +39,13 @@ export const mockProducts: Product[] = [
     date: "2024-07-02",
     slug: "21358-minifigure-vending-machine-p90701",
     category: "LEGO Instructions",
-    description: "Build your own minifigure vending machine with this detailed instruction set."
+    description: "Build your own minifigure vending machine with this detailed instruction set.",
+    fullDescription: "Complete building instructions for the 21358 Minifigure Vending Machine. This detailed guide will help you construct your own working vending machine with authentic LEGO bricks. Features include LED lighting effects and realistic minifigure dispensing mechanism.",
+    downloadLinks: {
+      pdf: "https://vehicle-lighting.oss-eu-west-1.aliyuncs.com/LEGO-lighting-P90701-21358.pdf",
+      instructions: "https://vehicle-lighting.oss-eu-west-1.aliyuncs.com/LEGO-lighting-P90701-21358.pdf"
+    },
+    tags: ["21358", "Minifigure", "Vending Machine", "P90701", "LED Lighting"]
   },
   {
     id: "2", 
@@ -132,4 +144,9 @@ export function filterProducts(products: Product[], query: string): Product[] {
     product.category.toLowerCase().includes(searchTerm) ||
     product.description?.toLowerCase().includes(searchTerm)
   );
+}
+
+// Get product by slug
+export function getProductBySlug(slug: string): Product | undefined {
+  return mockProducts.find(product => product.slug === slug);
 } 

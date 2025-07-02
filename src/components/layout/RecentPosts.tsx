@@ -10,7 +10,7 @@ export default function RecentPosts() {
         {mockRecentPosts.map((post) => (
           <div key={post.id} className="group">
             <Link 
-              href={`/instructions/${post.slug}`}
+              href={`/product?slug=${post.slug}`}
               className="flex items-center gap-2 text-gray-600 hover:text-blue-600 transition-colors text-sm"
             >
               <ChevronRight className="w-3 h-3 text-gray-400 group-hover:text-blue-600 transition-colors shrink-0" />

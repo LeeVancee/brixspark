@@ -42,7 +42,7 @@ export default function ProductCard({ product }: ProductCardProps) {
         {/* Title */}
         <h3 className="mb-4">
           <Link 
-            href={`/instructions/${product.slug}`}
+            href={`/product?slug=${product.slug}`}
             className="text-blue-600 hover:text-blue-700 font-medium text-lg leading-tight transition-colors"
           >
             {product.title}
@@ -63,7 +63,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           asChild
           className="text-gray-600 border-gray-300 hover:bg-gray-50"
         >
-          <Link href={`/instructions/${product.slug}`}>
+          <Link href={`/product?slug=${product.slug}`}>
             READ MORE...
           </Link>
         </Button>
