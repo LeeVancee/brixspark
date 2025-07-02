@@ -1,5 +1,5 @@
 import HomePage from "@/components/HomePage";
-import SearchResults from "@/components/SearchResults";
+import SearchResults from "@/components/layout/SearchResults";
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 
