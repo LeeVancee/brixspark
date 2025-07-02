@@ -1,22 +1,33 @@
+import { redirect } from "next/navigation";
 import Header from "@/components/layout/Header";
 import PageHeader from "@/components/layout/PageHeader";
 import Footer from "@/components/layout/Footer";
-import ProductCard from "./ProductCard";
-import Sidebar from "./RightSidebar";
+import ProductCard from "@/components/layout/ProductCard";
+import Sidebar from "@/components/layout/RightSidebar";
 import { mockProducts, filterProducts } from "@/lib/mockData";
 
-interface SearchResultsProps {
-  query: string;
+type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
+
+interface SearchPageProps {
+  searchParams: SearchParams;
 }
 
-export default function SearchResults({ query }: SearchResultsProps) {
+export default async function SearchPage({ searchParams }: SearchPageProps) {
+  const params = await searchParams;
+  const searchQuery = params.q as string;
+
+  // 如果没有搜索参数，重定向到首页
+  if (!searchQuery) {
+    redirect('/');
+  }
+
   const breadcrumbs = [
     { label: "HOME", href: "/" },
-    { label: `SEARCH - ${query}`, isActive: true }
+    { label: `SEARCH - ${searchQuery}`, isActive: true }
   ];
 
   // Filter products based on search query
-  const filteredProducts = filterProducts(mockProducts, query);
+  const filteredProducts = filterProducts(mockProducts, searchQuery);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -25,7 +36,7 @@ export default function SearchResults({ query }: SearchResultsProps) {
       
       {/* Page Header with Breadcrumb and Title */}
       <PageHeader 
-        title={`Search Results - ${query}`}
+        title={`Search Results - ${searchQuery}`}
         breadcrumbs={breadcrumbs}
       />
 
@@ -39,7 +50,7 @@ export default function SearchResults({ query }: SearchResultsProps) {
               {/* Search Results Info */}
               <div className="mb-6">
                 <p className="text-gray-600">
-                  Found {filteredProducts.length} result{filteredProducts.length !== 1 ? 's' : ''} for "{query}"
+                  Found {filteredProducts.length} result{filteredProducts.length !== 1 ? 's' : ''} for "{searchQuery}"
                 </p>
               </div>
 
@@ -52,7 +63,7 @@ export default function SearchResults({ query }: SearchResultsProps) {
                 </div>
               ) : (
                 <div className="text-center py-12">
-                  <p className="text-gray-500 text-lg mb-4">No results found for "{query}"</p>
+                  <p className="text-gray-500 text-lg mb-4">No results found for "{searchQuery}"</p>
                   <p className="text-gray-400">Try searching with different keywords or check your spelling.</p>
                 </div>
               )}

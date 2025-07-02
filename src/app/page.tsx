@@ -1,5 +1,5 @@
+import { redirect } from "next/navigation";
 import HomePage from "@/components/HomePage";
-import SearchResults from "@/components/layout/SearchResults";
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 
@@ -10,13 +10,12 @@ interface PageProps {
 export default async function Home({ searchParams }: PageProps) {
   const params = await searchParams;
   const searchQuery = params.s as string;
-  console.log(params);
 
-  // 如果有搜索参数，显示搜索结果页面
+  // 向后兼容：如果使用旧的搜索参数，重定向到新的搜索页面
   if (searchQuery) {
-    return <SearchResults query={searchQuery} />;
+    redirect(`/search?q=${encodeURIComponent(searchQuery)}`);
   }
 
-  // 否则显示首页
+  // 显示首页
   return <HomePage />;
 }
