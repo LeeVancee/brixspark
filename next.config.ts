@@ -7,6 +7,10 @@ const nextConfig: NextConfig = {
       protocol: 'https',
       hostname: `${process.env.HOSTNAME}`,
     },
+    {
+      protocol: 'https',
+      hostname: 'secure.gravatar.com',
+    },
   ],
  }
 };

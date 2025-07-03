@@ -7,6 +7,9 @@ import { getPostBySlug, getAllPosts } from "@/lib/queries";
 import { WordPressPost } from "@/lib/type";
 import Link from "next/link";
 import Image from "next/image";
+import AuthorSection from "@/components/ProductDetail/AuthorSection";
+import SocialShare from "@/components/ProductDetail/SocialShare";
+import CommentForm from "@/components/ProductDetail/CommentForm";
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 
@@ -23,7 +26,7 @@ export default async function ProductPage({ searchParams }: ProductPageProps) {
   
   if (!product) {
     return (
-      <div className="min-h-screen bg-gray-50 flex flex-col">
+      <div className="min-h-screen bg-white flex flex-col">
         <Header />
         <main className="flex-1 py-20">
           <div className="text-center">
@@ -52,7 +55,7 @@ export default async function ProductPage({ searchParams }: ProductPageProps) {
   const relatedProducts = relatedPostsResponse.posts.filter((p: WordPressPost) => p.id !== product.id).slice(0, 3);
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="min-h-screen bg-white flex flex-col">
       {/* Header */}
       <Header />
       
@@ -74,12 +77,21 @@ export default async function ProductPage({ searchParams }: ProductPageProps) {
               <ProductHeader product={product} />
 
               {/* Product Content */}
-              <div className="bg-white rounded-lg p-6 shadow-sm mb-6">
+              <div className="bg-white rounded-lg p-6  mb-6">
                 <div 
                   className="prose prose-lg max-w-none"
                   dangerouslySetInnerHTML={{ __html: product.content.rendered }} 
                 />
               </div>
+
+              {/* Author Section */}
+              <AuthorSection product={product} />
+
+              {/* Social Share */}
+              <SocialShare />
+
+              {/* Comment Form */}
+              <CommentForm />
 
             </div>
 
@@ -130,6 +142,7 @@ export default async function ProductPage({ searchParams }: ProductPageProps) {
         </div>
       </main>
       
+     
       {/* Footer */}
       <Footer />
       

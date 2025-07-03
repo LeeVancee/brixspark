@@ -21,12 +21,12 @@ export default function ProductCard({ product }: ProductCardProps) {
   return (
     <article className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
       {/* Image Container with Date Label */}
-      <div className="relative bg-black aspect-[4/3]">
+      <div className="relative bg-gray-100 aspect-[4/3] overflow-hidden group">
         <Image
           src={product._embedded?.['wp:featuredmedia']?.[0]?.source_url || "/home-n.png"}
           alt={product.title.rendered}
           fill
-          className="object-cover"
+          className="object-contain group-hover:scale-105 transition-transform duration-300 ease-in-out"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
         

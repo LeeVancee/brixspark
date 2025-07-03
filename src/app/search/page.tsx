@@ -126,7 +126,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
   const { posts, totalPages, totalPosts } = searchResults;
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="min-h-screen bg-white flex flex-col">
       {/* Header */}
       <Header />
       
