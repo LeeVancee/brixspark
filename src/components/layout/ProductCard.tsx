@@ -31,19 +31,23 @@ export default function ProductCard({ product }: ProductCardProps) {
         />
         
         {/* Date Label */}
-        <div className="absolute top-4 right-4 bg-blue-600 text-white text-center rounded-md px-3 py-2 min-w-[60px]">
-          <div className="text-lg font-bold leading-none">{day}</div>
-          <div className="text-sm leading-none">{month}</div>
+        <div className="absolute top-4 right-4 bg-white border border-gray-200 rounded-md overflow-hidden w-[40px] h-[70px] shadow-sm flex flex-col">
+          <div className="bg-gray-100 text-gray-800 text-center flex-1 flex items-center justify-center">
+            <div className="text-base font-bold leading-none">{day}</div>
+          </div>
+          <div className="bg-blue-600 text-white text-center flex-1 flex items-center justify-center">
+            <div className="text-xs font-medium leading-none">{month}</div>
+          </div>
         </div>
       </div>
       
       {/* Content */}
-      <div className="p-6">
+      <div className="p-4">
         {/* Title */}
-        <h3 className="mb-4">
+        <h3 className="mb-3">
           <Link 
             href={`/product?slug=${product.slug}`}
-            className="text-blue-600 hover:text-blue-700 font-medium text-lg leading-tight transition-colors"
+            className="text-blue-600 hover:text-blue-700 font-medium text-base leading-tight transition-colors line-clamp-2"
           >
             {product.title.rendered}
           </Link>
@@ -51,7 +55,7 @@ export default function ProductCard({ product }: ProductCardProps) {
         
         {/* Description (if available) */}
         {product.excerpt.rendered && (
-          <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+          <p className="text-gray-600 text-xs mb-3 line-clamp-2">
             {product.excerpt.rendered.replace(/<[^>]*>/g, '')}
           </p>
         )}
@@ -61,7 +65,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           variant="outline" 
           size="sm"
           asChild
-          className="text-gray-600 border-gray-300 hover:bg-gray-50"
+          className="text-gray-600 border-gray-300 hover:bg-gray-50 text-xs h-7"
         >
           <Link href={`/product?slug=${product.slug}`}>
             READ MORE...

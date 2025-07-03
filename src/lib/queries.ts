@@ -85,7 +85,10 @@ export const getPostById = async (id: number): Promise<WordPressPost | null> => 
       throw new Error('WordPress URL is not configured');
     }
 
-    const response = await fetch(`${baseUrl}/wp-json/wp/v2/posts/${id}?_embed=true`);
+    const response = await fetch(`${baseUrl}/wp-json/wp/v2/posts/${id}?_embed=true`, {
+      // Add caching for better performance
+      next: { revalidate: 300 }, // Cache for 5 minutes
+    });
     
     if (!response.ok) {
       if (response.status === 404) {
@@ -108,7 +111,10 @@ export const getPostBySlug = async (slug: string): Promise<WordPressPost | null>
       throw new Error('WordPress URL is not configured');
     }
 
-    const response = await fetch(`${baseUrl}/wp-json/wp/v2/posts?slug=${slug}&_embed=true`);
+    const response = await fetch(`${baseUrl}/wp-json/wp/v2/posts?slug=${slug}&_embed=true`, {
+      // Add caching for better performance
+      next: { revalidate: 300 }, // Cache for 5 minutes
+    });
     
     if (!response.ok) {
       throw new Error(`WordPress API error: ${response.status}`);
@@ -217,6 +223,8 @@ export const getAllPosts = async (options: SearchParams = {}): Promise<WordPress
         'Content-Type': 'application/json',
       },
       signal: AbortSignal.timeout(10000),
+      // Add caching for better performance
+      next: { revalidate: 300 }, // Cache for 5 minutes
     });
 
     if (!response.ok) {
@@ -266,6 +274,8 @@ export const getRecentComments = async (limit: number = 5): Promise<WordPressCom
         'Content-Type': 'application/json',
       },
       signal: AbortSignal.timeout(10000),
+      // Add caching for better performance
+      next: { revalidate: 300 }, // Cache for 5 minutes
     });
 
     if (!response.ok) {
@@ -277,6 +287,52 @@ export const getRecentComments = async (limit: number = 5): Promise<WordPressCom
 
   } catch (error) {
     console.error('Error fetching recent comments from WordPress:', error);
+    return [];
+  }
+};
+
+// Get recent comments with post data in a single optimized call
+export const getRecentCommentsWithPosts = async (limit: number = 5): Promise<Array<{comment: WordPressComment, post: WordPressPost | null}>> => {
+  try {
+    if (!baseUrl) {
+      throw new Error('WordPress URL is not configured');
+    }
+
+    // First get recent comments
+    const comments = await getRecentComments(limit);
+    
+    if (comments.length === 0) {
+      return [];
+    }
+
+    // Get unique post IDs
+    const postIds = [...new Set(comments.map(comment => comment.post))];
+    
+    // Fetch all posts in one API call
+    const postsResponse = await fetch(`${baseUrl}/wp-json/wp/v2/posts?include=${postIds.join(',')}&_embed=true`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      signal: AbortSignal.timeout(10000),
+      next: { revalidate: 300 }, // Cache for 5 minutes
+    });
+
+    let posts: WordPressPost[] = [];
+    if (postsResponse.ok) {
+      posts = await postsResponse.json();
+    }
+
+    // Create a map for quick lookup
+    const postMap = new Map(posts.map(post => [post.id, post]));
+
+    // Combine comments with their posts
+    return comments.map(comment => ({
+      comment,
+      post: postMap.get(comment.post) || null
+    }));
+
+  } catch (error) {
+    console.error('Error fetching recent comments with posts:', error);
     return [];
   }
 };

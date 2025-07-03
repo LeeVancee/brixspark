@@ -10,7 +10,7 @@ interface PageHeaderProps {
 export default function PageHeader({ title, breadcrumbs }: PageHeaderProps) {
   return (
     <section className="bg-neutral-900 text-white py-8">
-      <div className="w-full max-w-[1400px] mx-auto px-4">
+      <div className="w-full max-w-[1200px] mx-auto px-4">
         {/* Breadcrumb */}
         <nav className="flex items-center space-x-2 text-sm text-gray-300 mb-4">
           {breadcrumbs.map((crumb, index) => (

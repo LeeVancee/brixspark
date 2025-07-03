@@ -16,17 +16,21 @@ export default function ProductHeader({ product }: ProductHeaderProps) {
   const { day, month } = formatDate(product.date);
 
   return (
-    <div className="p-6">
-      <div className="flex items-start gap-4">
+    <div className="p-4 mb-4">
+      <div className="flex items-start gap-3">
         {/* Date Label */}
-        <div className="bg-blue-600 text-white text-center rounded-md px-3 py-2 min-w-[60px] shrink-0">
-          <div className="text-lg font-bold leading-none">{day}</div>
-          <div className="text-sm leading-none">{month}</div>
+        <div className="bg-white border border-gray-200 rounded-md overflow-hidden w-[40px] h-[70px] shrink-0 shadow-sm flex flex-col">
+          <div className="bg-gray-100 text-gray-800 text-center flex-1 flex items-center justify-center">
+            <div className="text-lg font-bold leading-none">{day}</div>
+          </div>
+          <div className="bg-blue-600 text-white text-center flex-1 flex items-center justify-center">
+            <div className="text-xs font-medium leading-none">{month}</div>
+          </div>
         </div>
         
         {/* Title */}
         <div className="flex-1">
-          <h1 className="text-2xl lg:text-3xl font-bold text-blue-600 mb-2">
+          <h1 className="text-xl lg:text-2xl font-bold text-blue-600 mb-1">
             {product.title.rendered}
           </h1>
        
