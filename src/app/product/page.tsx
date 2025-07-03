@@ -76,7 +76,7 @@ export default async function ProductPage({ searchParams }: ProductPageProps) {
     orderby: "date",
     order: "desc",
   });
-  const relatedProducts = relatedPostsResponse.posts
+  const relatedPosts = relatedPostsResponse.posts
     .filter((p: WordPressPost) => p.id !== product.id)
     .slice(0, 3);
 
@@ -143,55 +143,7 @@ export default async function ProductPage({ searchParams }: ProductPageProps) {
             </div>
           </div>
 
-          {/* Related Products Section */}
-          {relatedProducts.length > 0 && (
-            <div className="mt-8">
-              <h2 className="text-xl font-bold text-gray-800 mb-4">
-                Related Products
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                {relatedProducts.map((relatedProduct: WordPressPost) => (
-                  <div
-                    key={relatedProduct.id}
-                    className="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow"
-                  >
-                    {relatedProduct._embedded?.["wp:featuredmedia"]?.[0]
-                      ?.source_url && (
-                      <div className="relative w-full h-36">
-                        <Image
-                          src={
-                            relatedProduct._embedded["wp:featuredmedia"][0]
-                              .source_url
-                          }
-                          alt={relatedProduct.title.rendered}
-                          fill
-                          className="object-cover"
-                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                        />
-                      </div>
-                    )}
-                    <div className="p-3">
-                      <h3 className="font-semibold text-gray-800 mb-2 line-clamp-2 text-sm">
-                        {relatedProduct.title.rendered}
-                      </h3>
-                      <p className="text-gray-600 text-xs mb-2 line-clamp-2">
-                        {relatedProduct.excerpt.rendered.replace(
-                          /<[^>]*>/g,
-                          ""
-                        )}
-                      </p>
-                      <Link
-                        href={`/product?slug=${relatedProduct.slug}`}
-                        className="text-blue-600 hover:text-blue-700 text-xs font-medium"
-                      >
-                        View Details →
-                      </Link>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
+          {/* Related Posts Section */}
         </div>
       </main>
 
