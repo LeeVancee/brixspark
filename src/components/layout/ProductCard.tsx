@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { WordPressPost } from "@/lib/mockData";
+import { WordPressPost } from "@/lib/type";
 
 interface ProductCardProps {
   product: WordPressPost;

@@ -3,16 +3,10 @@ import PageHeader from "@/components/layout/PageHeader";
 import Footer from "@/components/layout/Footer";
 import Sidebar from "@/components/layout/RightSidebar";
 import ProductHeader from "@/components/ProductDetail/ProductHeader";
-import ProductGallery from "@/components/ProductDetail/ProductGallery";
-import PDFViewer from "@/components/ProductDetail/PDFViewer";
-import SocialShare from "@/components/ProductDetail/SocialShare";
-import AuthorSection from "@/components/ProductDetail/AuthorSection";
-import CommentForm from "@/components/ProductDetail/CommentForm";
-import ProductDescription from "@/components/ProductDetail/ProductDescription";
-import ProductTags from "@/components/ProductDetail/ProductTags";
-import RelatedProducts from "@/components/ProductDetail/RelatedProducts";
-import { getProductBySlug, mockProducts } from "@/lib/mockData";
+import { getPostBySlug, getAllPosts } from "@/lib/queries";
+import { WordPressPost } from "@/lib/type";
 import Link from "next/link";
+import Image from "next/image";
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 
@@ -24,12 +18,12 @@ export default async function ProductPage({ searchParams }: ProductPageProps) {
   const params = await searchParams;
   const slug = params.slug as string || "21358-minifigure-vending-machine-p90701";
   
-  // Get product by slug
-  const product = getProductBySlug(slug);
+  // Get product by slug from WordPress API
+  const product = await getPostBySlug(slug);
   
   if (!product) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-gray-50 flex flex-col">
         <Header />
         <main className="flex-1 py-20">
           <div className="text-center">
@@ -54,10 +48,11 @@ export default async function ProductPage({ searchParams }: ProductPageProps) {
   ];
 
   // Get related products (exclude current product)
-  const relatedProducts = mockProducts.filter(p => p.id !== product.id).slice(0, 3);
+  const relatedPostsResponse = await getAllPosts({ per_page: 4, orderby: 'date', order: 'desc' });
+  const relatedProducts = relatedPostsResponse.posts.filter((p: WordPressPost) => p.id !== product.id).slice(0, 3);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 flex flex-col">
       {/* Header */}
       <Header />
       
@@ -78,26 +73,13 @@ export default async function ProductPage({ searchParams }: ProductPageProps) {
               {/* Product Header */}
               <ProductHeader product={product} />
 
-              {/* Product Image Gallery */}
-              <ProductGallery product={product} />
-              
-              {/* PDF Viewer */}
-              <PDFViewer product={product} />
-
-              {/* Social Share */}
-              <SocialShare />
-
-              {/* Author Section */}
-              <AuthorSection product={product} />
-
-              {/* Comments Section */}
-              <CommentForm />
-
-              {/* Product Description */}
-              <ProductDescription product={product} />
-
-              {/* Tags */}
-              <ProductTags product={product} />
+              {/* Product Content */}
+              <div className="bg-white rounded-lg p-6 shadow-sm mb-6">
+                <div 
+                  className="prose prose-lg max-w-none"
+                  dangerouslySetInnerHTML={{ __html: product.content.rendered }} 
+                />
+              </div>
 
             </div>
 
@@ -109,7 +91,42 @@ export default async function ProductPage({ searchParams }: ProductPageProps) {
           </div>
           
           {/* Related Products Section */}
-          <RelatedProducts products={relatedProducts} />
+          {relatedProducts.length > 0 && (
+            <div className="mt-12">
+              <h2 className="text-2xl font-bold text-gray-800 mb-6">Related Products</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {relatedProducts.map((relatedProduct: WordPressPost) => (
+                  <div key={relatedProduct.id} className="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+                    {relatedProduct._embedded?.['wp:featuredmedia']?.[0]?.source_url && (
+                      <div className="relative w-full h-48">
+                        <Image 
+                          src={relatedProduct._embedded['wp:featuredmedia'][0].source_url}
+                          alt={relatedProduct.title.rendered}
+                          fill
+                          className="object-cover"
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        />
+                      </div>
+                    )}
+                    <div className="p-4">
+                      <h3 className="font-semibold text-gray-800 mb-2 line-clamp-2">
+                        {relatedProduct.title.rendered}
+                      </h3>
+                      <p className="text-gray-600 text-sm mb-3 line-clamp-3">
+                        {relatedProduct.excerpt.rendered.replace(/<[^>]*>/g, '')}
+                      </p>
+                      <Link 
+                        href={`/product?slug=${relatedProduct.slug}`}
+                        className="text-blue-600 hover:text-blue-700 text-sm font-medium"
+                      >
+                        View Details →
+                      </Link>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </main>
       

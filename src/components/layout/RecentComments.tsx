@@ -1,19 +1,36 @@
 import Link from "next/link";
-import { mockRecentComments, mockProducts, WordPressComment } from "@/lib/mockData";
+import { getRecentComments, getPostById } from "@/lib/queries";
+import { WordPressComment } from "@/lib/type";
 
-export default function RecentComments() {
-  // Helper function to get post by ID
-  const getPostById = (postId: number) => {
-    return mockProducts.find(post => post.id === postId);
-  };
+export default async function RecentComments() {
+  try {
+    // Fetch recent comments from WordPress API
+    const comments = await getRecentComments(5);
 
-  return (
-    <div className="bg-white rounded-lg p-6 shadow-sm mb-6">
-      <h3 className="font-semibold text-gray-800 mb-4">RECENT COMMENTS</h3>
-      <div className="space-y-4">
-        {mockRecentComments.map((comment: WordPressComment) => {
-          const post = getPostById(comment.post);
-          return (
+    if (comments.length === 0) {
+      return (
+        <div className="bg-white rounded-lg p-6 shadow-sm mb-6">
+          <h3 className="font-semibold text-gray-800 mb-4">RECENT COMMENTS</h3>
+          <div className="text-gray-500 text-sm">
+            No recent comments
+          </div>
+        </div>
+      );
+    }
+
+    // Get post data for each comment
+    const commentsWithPosts = await Promise.all(
+      comments.map(async (comment: WordPressComment) => {
+        const post = await getPostById(comment.post);
+        return { comment, post };
+      })
+    );
+
+    return (
+      <div className="bg-white rounded-lg p-6 shadow-sm mb-6">
+        <h3 className="font-semibold text-gray-800 mb-4">RECENT COMMENTS</h3>
+        <div className="space-y-4">
+          {commentsWithPosts.map(({ comment, post }) => (
             <div key={comment.id} className="text-sm">
               <div className="flex items-start gap-2">
                 <span className="text-blue-600 font-medium">
@@ -33,9 +50,19 @@ export default function RecentComments() {
                 {comment.content.rendered.replace(/<[^>]*>/g, '')}
               </p>
             </div>
-          );
-        })}
+          ))}
+        </div>
       </div>
-    </div>
-  );
+    );
+  } catch (error) {
+    console.error('Error fetching recent comments:', error);
+    return (
+      <div className="bg-white rounded-lg p-6 shadow-sm mb-6">
+        <h3 className="font-semibold text-gray-800 mb-4">RECENT COMMENTS</h3>
+        <div className="text-gray-500 text-sm">
+          Unable to load recent comments
+        </div>
+      </div>
+    );
+  }
 } 

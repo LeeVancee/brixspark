@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { WordPressPost } from "@/lib/mockData";
+import { WordPressPost } from "@/lib/type";
 
 interface RelatedProductsProps {
   products: WordPressPost[];
@@ -15,6 +15,10 @@ function formatDate(dateString: string): { day: string; month: string } {
 }
 
 export default function RelatedProducts({ products }: RelatedProductsProps) {
+  if (!products || products.length === 0) {
+    return null;
+  }
+
   return (
     <div className="mt-12 pt-8 border-t border-gray-200">
       <h4 className="text-2xl font-bold text-gray-800 mb-6">
@@ -24,41 +28,55 @@ export default function RelatedProducts({ products }: RelatedProductsProps) {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {products.map((relatedProduct: WordPressPost) => {
           const { day, month } = formatDate(relatedProduct.date);
+          const featuredImage = relatedProduct._embedded?.['wp:featuredmedia']?.[0]?.source_url;
+          
           return (
-            <article key={relatedProduct.id} className="bg-white rounded-lg shadow-sm overflow-hidden">
+            <article key={relatedProduct.id} className="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow">
               <Link href={`/product?slug=${relatedProduct.slug}`}>
                 <div className="relative aspect-square bg-gray-100">
                   <Image
-                    src={relatedProduct._embedded?.['wp:featuredmedia']?.[0]?.source_url || "/home-n.png"}
+                    src={featuredImage || "/home-n.png"}
                     alt={relatedProduct.title.rendered}
                     fill
-                    className="object-cover"
+                    className="object-cover hover:scale-105 transition-transform duration-300"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
                 </div>
               </Link>
               
-              {/* Date */}
+              {/* Content */}
               <div className="p-4">
+                {/* Date */}
                 <div className="flex items-center gap-2 text-xs text-gray-500 mb-2">
                   <span className="font-bold">{day}</span>
                   <span>{month}</span>
-                  <time>{new Date(relatedProduct.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
+                  <time dateTime={relatedProduct.date}>
+                    {new Date(relatedProduct.date).toLocaleDateString('en-US', { 
+                      year: 'numeric', 
+                      month: 'long', 
+                      day: 'numeric' 
+                    })}
+                  </time>
                 </div>
                 
                 {/* Title */}
-                <h4 className="font-semibold text-gray-800 mb-2">
-                  <Link href={`/product?slug=${relatedProduct.slug}`}>
+                <h4 className="font-semibold text-gray-800 mb-2 line-clamp-2">
+                  <Link 
+                    href={`/product?slug=${relatedProduct.slug}`}
+                    className="hover:text-blue-600 transition-colors"
+                  >
                     {relatedProduct.title.rendered}
                   </Link>
                 </h4>
                 
                 {/* Excerpt */}
                 <div className="text-sm text-gray-600">
-                  <p className="line-clamp-2 mb-2">{relatedProduct.excerpt.rendered.replace(/<[^>]*>/g, '')}</p>
+                  <p className="line-clamp-2 mb-2">
+                    {relatedProduct.excerpt.rendered.replace(/<[^>]*>/g, '').trim()}
+                  </p>
                   <Link 
                     href={`/product?slug=${relatedProduct.slug}`}
-                    className="text-blue-600 font-medium inline-flex items-center gap-1"
+                    className="text-blue-600 font-medium inline-flex items-center gap-1 hover:text-blue-700 transition-colors"
                   >
                     read more 
                     <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
