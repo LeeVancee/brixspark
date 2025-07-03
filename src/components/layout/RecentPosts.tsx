@@ -6,11 +6,20 @@ import { WordPressPost } from "@/lib/type";
 export default async function RecentPosts() {
   try {
     // Fetch recent posts from WordPress API
-    const { posts } = await getAllPosts({ 
-      per_page: 5, 
-      orderby: 'date',
-      order: 'desc'
+    const { posts } = await getAllPosts({
+      per_page: 5,
+      orderby: "date",
+      order: "desc",
     });
+    const decodeHtmlEntities = (text: string) => {
+      return text
+        .replace(/&amp;/g, "&")
+        .replace(/&lt;/g, "<")
+        .replace(/&gt;/g, ">")
+        .replace(/&quot;/g, '"')
+        .replace(/&#39;/g, "'")
+        .replace(/&nbsp;/g, " ");
+    };
 
     return (
       <div className="bg-white rounded-lg p-6 shadow-sm mb-6">
@@ -18,12 +27,14 @@ export default async function RecentPosts() {
         <div className="space-y-3">
           {posts.map((post: WordPressPost) => (
             <div key={post.id} className="group">
-              <Link 
+              <Link
                 href={`/product?slug=${post.slug}`}
                 className="flex items-center gap-2 text-gray-600 hover:text-blue-600 transition-colors text-sm"
               >
                 <ChevronRight className="w-3 h-3 text-gray-400 group-hover:text-blue-600 transition-colors shrink-0" />
-                <span className="line-clamp-2">{post.title.rendered}</span>
+                <span className="line-clamp-2">
+                  {decodeHtmlEntities(post.title.rendered)}
+                </span>
               </Link>
             </div>
           ))}
@@ -31,14 +42,12 @@ export default async function RecentPosts() {
       </div>
     );
   } catch (error) {
-    console.error('Error fetching recent posts:', error);
+    console.error("Error fetching recent posts:", error);
     return (
       <div className="bg-white rounded-lg p-6 shadow-sm mb-6">
         <h3 className="font-semibold text-gray-800 mb-4">RECENT POSTS</h3>
-        <div className="text-gray-500 text-sm">
-          Unable to load recent posts
-        </div>
+        <div className="text-gray-500 text-sm">Unable to load recent posts</div>
       </div>
     );
   }
-} 
+}

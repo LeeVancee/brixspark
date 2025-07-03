@@ -7,13 +7,24 @@ interface ProductHeaderProps {
 // Format date to display format like "02 Jul"
 function formatDate(dateString: string): { day: string; month: string } {
   const date = new Date(dateString);
-  const day = date.getDate().toString().padStart(2, '0');
-  const month = date.toLocaleDateString('en', { month: 'short' });
+  const day = date.getDate().toString().padStart(2, "0");
+  const month = date.toLocaleDateString("en", { month: "short" });
   return { day, month };
 }
 
 export default function ProductHeader({ product }: ProductHeaderProps) {
   const { day, month } = formatDate(product.date);
+  const decodeHtmlEntities = (text: string) => {
+    return text
+      .replace(/&amp;/g, "&")
+      .replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">")
+      .replace(/&quot;/g, '"')
+      .replace(/&#39;/g, "'")
+      .replace(/&nbsp;/g, " ");
+  };
+
+  const decodedTitle = decodeHtmlEntities(product.title.rendered);
 
   return (
     <div className="p-4 mb-4">
@@ -27,13 +38,12 @@ export default function ProductHeader({ product }: ProductHeaderProps) {
             <div className="text-xs font-medium leading-none">{month}</div>
           </div>
         </div>
-        
+
         {/* Title */}
         <div className="flex-1">
           <h1 className="text-xl lg:text-2xl font-bold text-blue-600 mb-1">
-            {product.title.rendered}
+            {decodedTitle}
           </h1>
-       
         </div>
       </div>
     </div>

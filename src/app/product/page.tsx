@@ -23,6 +23,7 @@ export default async function ProductPage({ searchParams }: ProductPageProps) {
 
   // Get product by slug from WordPress API
   const product = await getPostBySlug(slug);
+  // Decode HTML entities in title
 
   if (!product) {
     return (
@@ -45,16 +46,27 @@ export default async function ProductPage({ searchParams }: ProductPageProps) {
       </div>
     );
   }
+  const decodeHtmlEntities = (text: string) => {
+    return text
+      .replace(/&amp;/g, "&")
+      .replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">")
+      .replace(/&quot;/g, '"')
+      .replace(/&#39;/g, "'")
+      .replace(/&nbsp;/g, " ");
+  };
+
+  const decodedTitle = decodeHtmlEntities(product.title.rendered);
 
   // Build breadcrumbs
   const breadcrumbs = [
     { label: "HOME", href: "/" },
     {
-      label: product.title.rendered.toUpperCase(),
+      label: decodedTitle.toUpperCase(),
       href: `/product?slug=${product.slug}`,
     },
     { label: "母接式", isActive: false },
-    { label: product.title.rendered.toUpperCase(), isActive: true },
+    { label: decodedTitle.toUpperCase(), isActive: true },
   ];
 
   // Parallelize related products API call (this will be handled by Sidebar components)
@@ -74,11 +86,11 @@ export default async function ProductPage({ searchParams }: ProductPageProps) {
       <Header />
 
       {/* Page Header with Breadcrumb and Title */}
-      <PageHeader title={product.title.rendered} breadcrumbs={breadcrumbs} />
+      <PageHeader title={decodedTitle} breadcrumbs={breadcrumbs} />
 
       {/* Main Content */}
       <main className="flex-1 pb-12">
-        <div className="w-full max-w-[1200px] mx-auto px-4 py-6">
+        <div className="w-full max-w-6xl mx-auto px-4 py-6">
           <div className="flex flex-col lg:flex-row gap-6">
             <div className="flex-1 w-full">
               {/* Product Content with Date Label */}
@@ -105,7 +117,7 @@ export default async function ProductPage({ searchParams }: ProductPageProps) {
                 {/* Product Title */}
 
                 <h1 className="text-4xl  font-bold text-blue-600 mb-10">
-                  {product.title.rendered}
+                  {decodedTitle}
                 </h1>
 
                 {/* Product Content */}

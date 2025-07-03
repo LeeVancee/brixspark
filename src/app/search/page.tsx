@@ -130,7 +130,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
   const { posts, totalPages, totalPosts } = searchResults;
 
   return (
-    <div className="min-h-screen bg-white flex flex-col">
+    <div className="min-h-screen bg-gray-100 flex flex-col">
       {/* Header */}
       <Header />
 
@@ -142,7 +142,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
 
       {/* Main Content */}
       <main className="flex-1 pb-12">
-        <div className="w-full max-w-[1200px] mx-auto px-4 py-6">
+        <div className="w-full max-w-6xl mx-auto px-4 py-6">
           <div className="flex flex-col lg:flex-row gap-6">
             {/* Left Content - Products Grid (70% width) */}
             <div className="flex-1 w-full lg:w-3/4">
@@ -181,7 +181,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
                 <>
                   {posts.length > 0 ? (
                     <>
-                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {posts.map((product) => (
                           <ProductCard key={product.id} product={product} />
                         ))}
