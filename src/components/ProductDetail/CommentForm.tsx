@@ -2,11 +2,16 @@ import { Button } from "@/components/ui/button";
 
 export default function CommentForm() {
   return (
-    <div className="bg-white rounded-lg shadow-sm p-4 mb-4" id="comments">
-      <h3 className="text-base font-semibold text-gray-800 mb-3">Leave a Reply</h3>
+    <div className="p-4 mb-4" id="comments">
+      <h3 className="text-base font-semibold text-gray-800 mb-3">
+        Leave a Reply
+      </h3>
       <form className="space-y-3">
         <div>
-          <label htmlFor="comment" className="block text-xs font-medium text-gray-700 mb-1">
+          <label
+            htmlFor="comment"
+            className="block text-xs font-medium text-gray-700 mb-1"
+          >
             Comment <span className="text-red-500">*</span>
           </label>
           <textarea
@@ -16,10 +21,13 @@ export default function CommentForm() {
             placeholder="Your comment..."
           ></textarea>
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <div>
-            <label htmlFor="name" className="block text-xs font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="name"
+              className="block text-xs font-medium text-gray-700 mb-1"
+            >
               Name <span className="text-red-500">*</span>
             </label>
             <input
@@ -29,7 +37,10 @@ export default function CommentForm() {
             />
           </div>
           <div>
-            <label htmlFor="email" className="block text-xs font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="email"
+              className="block text-xs font-medium text-gray-700 mb-1"
+            >
               Email <span className="text-red-500">*</span>
             </label>
             <input
@@ -39,9 +50,12 @@ export default function CommentForm() {
             />
           </div>
         </div>
-        
+
         <div>
-          <label htmlFor="website" className="block text-xs font-medium text-gray-700 mb-1">
+          <label
+            htmlFor="website"
+            className="block text-xs font-medium text-gray-700 mb-1"
+          >
             Website
           </label>
           <input
@@ -57,13 +71,17 @@ export default function CommentForm() {
             type="checkbox"
             className="h-3 w-3 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
           />
-          <label htmlFor="save-info" className="ml-2 block text-xs text-gray-700">
-            Save my name, email, and website in this browser for the next time I comment.
+          <label
+            htmlFor="save-info"
+            className="ml-2 block text-xs text-gray-700"
+          >
+            Save my name, email, and website in this browser for the next time I
+            comment.
           </label>
         </div>
 
-        <Button 
-          type="submit" 
+        <Button
+          type="submit"
           className="bg-blue-600 text-white px-4 py-2 text-sm"
         >
           Post Comment

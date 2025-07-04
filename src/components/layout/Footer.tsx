@@ -3,9 +3,9 @@ export default function Footer() {
     <footer className="w-full bg-neutral-900 text-gray-400 py-6">
       <div className="w-full max-w-[1400px] mx-auto px-4">
         <div className="text-center text-sm">
-          Copyright © 2018-2020 instruction LLC. All Rights Reserved.
+          Copyright © 2018-2020 BRIXSPARK LLC. All Rights Reserved.
         </div>
       </div>
     </footer>
   );
-} 
+}

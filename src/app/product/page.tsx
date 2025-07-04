@@ -9,6 +9,7 @@ import Image from "next/image";
 import AuthorSection from "@/components/ProductDetail/AuthorSection";
 import SocialShare from "@/components/ProductDetail/SocialShare";
 import CommentForm from "@/components/ProductDetail/CommentForm";
+import RelatedProducts from "@/components/ProductDetail/RelatedProducts";
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 
@@ -89,7 +90,7 @@ export default async function ProductPage({ searchParams }: ProductPageProps) {
       <PageHeader title={decodedTitle} breadcrumbs={breadcrumbs} />
 
       {/* Main Content */}
-      <main className="flex-1 pb-12">
+      <main className="flex-1  pb-12">
         <div className="w-full max-w-6xl mx-auto px-4 py-6">
           <div className="flex flex-col lg:flex-row gap-6">
             <div className="flex-1 w-full">
@@ -122,19 +123,30 @@ export default async function ProductPage({ searchParams }: ProductPageProps) {
 
                 {/* Product Content */}
                 <div
-                  className="prose prose-base max-w-none"
+                  className="prose prose-base max-w-none mb-12"
                   dangerouslySetInnerHTML={{ __html: product.content.rendered }}
                 />
+
+                {/* Author Section */}
+                <div className="mt-8">
+                  <AuthorSection product={product} />
+                </div>
+
+                {/* Social Share */}
+                <div className="mt-8">
+                  <SocialShare />
+                </div>
+
+                {/* Comment Form */}
+                <div className="mt-8">
+                  <CommentForm />
+                </div>
+
+                {/* Related Posts Section - aligned with main content */}
+                <div className="mt-12">
+                  <RelatedProducts posts={relatedPosts} />
+                </div>
               </div>
-
-              {/* Author Section */}
-              <AuthorSection product={product} />
-
-              {/* Social Share */}
-              <SocialShare />
-
-              {/* Comment Form */}
-              <CommentForm />
             </div>
 
             {/* Right Sidebar (30% width) */}
@@ -142,8 +154,6 @@ export default async function ProductPage({ searchParams }: ProductPageProps) {
               <Sidebar />
             </div>
           </div>
-
-          {/* Related Posts Section */}
         </div>
       </main>
 

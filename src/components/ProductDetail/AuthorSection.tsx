@@ -10,7 +10,7 @@ export default function AuthorSection({ product }: AuthorSectionProps) {
   const author = product._embedded?.author?.[0];
 
   return (
-    <div className="bg-white rounded-lg shadow-sm p-4 mb-4">
+    <div className=" p-4 mb-4">
       <h3 className="text-base font-semibold text-gray-800 mb-3">Author</h3>
       <div className="flex items-start gap-3">
         <div className="w-16 h-16 bg-gray-300 rounded-full flex items-center justify-center overflow-hidden">

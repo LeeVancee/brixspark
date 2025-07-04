@@ -13,7 +13,7 @@ export default function Header() {
               href="/"
               className="text-xl font-semibold text-blue-600 hover:text-blue-700"
             >
-              instruction
+              BRIXSPARK
             </Link>
           </div>
 
