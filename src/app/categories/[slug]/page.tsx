@@ -1,15 +1,44 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
+import { Metadata } from "next";
 import Header from "@/components/layout/Header";
 import PageHeader from "@/components/layout/PageHeader";
 import Footer from "@/components/layout/Footer";
 import PostCard from "@/components/layout/PostCard";
 import RightSidebar from "@/components/layout/RightSidebar";
 import { getCategories, getPostsBySearch } from "@/lib/queries";
+import { WordPressCategory, WordPressPost } from "@/lib/type";
 import Link from "next/link";
 
 interface CategoryPageProps {
   params: Promise<{ slug: string }>;
   searchParams: Promise<{ page?: string }>;
+}
+
+export async function generateMetadata({
+  params,
+}: CategoryPageProps): Promise<Metadata> {
+  const { slug } = await params;
+
+  try {
+    const categoriesResult = await getCategories();
+    const category = categoriesResult.categories.find(
+      (cat) => cat.slug === slug
+    );
+
+    if (!category) {
+      return {
+        title: "Category Not Found - BRIXSPARK",
+      };
+    }
+
+    return {
+      title: `${category.name} - BRIXSPARK`,
+    };
+  } catch (error) {
+    return {
+      title: "Categories - BRIXSPARK",
+    };
+  }
 }
 
 // 分页组件（复用搜索页逻辑）

@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import { Metadata } from "next";
 import Header from "@/components/layout/Header";
 import PageHeader from "@/components/layout/PageHeader";
 import Footer from "@/components/layout/Footer";
@@ -12,6 +13,23 @@ type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 
 interface SearchPageProps {
   searchParams: SearchParams;
+}
+
+export async function generateMetadata({
+  searchParams,
+}: SearchPageProps): Promise<Metadata> {
+  const params = await searchParams;
+  const searchQuery = params.q as string;
+
+  if (!searchQuery) {
+    return {
+      title: "Search - BRIXSPARK",
+    };
+  }
+
+  return {
+    title: `Search: ${searchQuery} - BRIXSPARK`,
+  };
 }
 
 // Pagination component

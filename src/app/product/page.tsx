@@ -1,3 +1,5 @@
+import { redirect, notFound } from "next/navigation";
+import { Metadata } from "next";
 import Header from "@/components/layout/Header";
 import PageHeader from "@/components/layout/PageHeader";
 import Footer from "@/components/layout/Footer";
@@ -15,6 +17,24 @@ type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 
 interface ProductPageProps {
   searchParams: SearchParams;
+}
+
+export async function generateMetadata({
+  searchParams,
+}: ProductPageProps): Promise<Metadata> {
+  const params = await searchParams;
+  const slug = params.slug as string;
+
+  const product = await getPostBySlug(slug);
+  if (!product) {
+    return {
+      title: "Post Not Found - BRIXSPARK",
+    };
+  }
+
+  return {
+    title: `${decodeHtmlEntities(product.title.rendered)} - BRIXSPARK`,
+  };
 }
 
 export default async function ProductPage({ searchParams }: ProductPageProps) {
