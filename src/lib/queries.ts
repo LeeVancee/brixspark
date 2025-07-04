@@ -42,11 +42,7 @@ export const getPostsBySearch = async (
     const url = `${baseUrl}/wp-json/wp/v2/posts?${params.toString()}`;
     
     const response = await fetch(url, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      // Add timeout
-      signal: AbortSignal.timeout(10000), // 10 seconds timeout
+      next: { revalidate: 300 } // Cache for 5 minutes
     });
 
     if (!response.ok) {
@@ -136,7 +132,9 @@ export const getCategories = async (): Promise<WordPressCategoriesResponse> => {
       throw new Error('WordPress URL is not configured');
     }
 
-    const response = await fetch(`${baseUrl}/wp-json/wp/v2/categories?per_page=100`);
+    const response = await fetch(`${baseUrl}/wp-json/wp/v2/categories?per_page=100`, {
+      next: { revalidate: 300 } // Cache for 5 minutes
+    });
     
     if (!response.ok) {
       throw new Error(`WordPress API error: ${response.status}`);
@@ -168,14 +166,16 @@ export const getTags = async (): Promise<WordPressTagsResponse> => {
       throw new Error('WordPress URL is not configured');
     }
 
-    const response = await fetch(`${baseUrl}/wp-json/wp/v2/tags?per_page=100`);
+    const response = await fetch(`${baseUrl}/wp-json/wp/v2/tags?per_page=100`, {
+      next: { revalidate: 300 } // Cache for 5 minutes
+    });
     
     if (!response.ok) {
       throw new Error(`WordPress API error: ${response.status}`);
     }
 
     const tags: WordPressTag[] = await response.json();
-    
+
     const totalTags = parseInt(response.headers.get('X-WP-Total') || '0');
     const totalPages = parseInt(response.headers.get('X-WP-TotalPages') || '0');
 

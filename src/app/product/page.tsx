@@ -1,4 +1,3 @@
-import { redirect, notFound } from "next/navigation";
 import { Metadata } from "next";
 import Header from "@/components/layout/Header";
 import PageHeader from "@/components/layout/PageHeader";
