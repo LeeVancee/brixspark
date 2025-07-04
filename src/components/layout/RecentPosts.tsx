@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import { getAllPosts } from "@/lib/queries";
 import { WordPressPost } from "@/lib/type";
+import { decodeHtmlEntities } from "@/lib/utils";
 
 export default async function RecentPosts() {
   try {
@@ -11,15 +12,6 @@ export default async function RecentPosts() {
       orderby: "date",
       order: "desc",
     });
-    const decodeHtmlEntities = (text: string) => {
-      return text
-        .replace(/&amp;/g, "&")
-        .replace(/&lt;/g, "<")
-        .replace(/&gt;/g, ">")
-        .replace(/&quot;/g, '"')
-        .replace(/&#39;/g, "'")
-        .replace(/&nbsp;/g, " ");
-    };
 
     return (
       <div className="bg-white rounded-lg p-6 shadow-sm mb-6">

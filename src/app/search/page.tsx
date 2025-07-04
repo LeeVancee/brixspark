@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import Header from "@/components/layout/Header";
 import PageHeader from "@/components/layout/PageHeader";
 import Footer from "@/components/layout/Footer";
-import ProductCard from "@/components/layout/ProductCard";
+import PostCard from "@/components/layout/PostCard";
 import RightSidebar from "@/components/layout/RightSidebar";
 import { getPostsBySearch } from "@/lib/queries";
 import { WordPressPost } from "@/lib/type";
@@ -183,8 +183,9 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
                     <>
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {posts.map((product) => (
-                          <ProductCard key={product.id} product={product} />
+                          <PostCard key={product.id} product={product} />
                         ))}
+                        {/* <PostCard /> */}
                       </div>
 
                       {/* Pagination */}

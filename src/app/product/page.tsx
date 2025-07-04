@@ -5,11 +5,12 @@ import Sidebar from "@/components/layout/RightSidebar";
 import { getPostBySlug, getAllPosts } from "@/lib/queries";
 import { WordPressPost } from "@/lib/type";
 import Link from "next/link";
-import AuthorSection from "@/components/ProductDetail/AuthorSection";
-import SocialShare from "@/components/ProductDetail/SocialShare";
-import CommentForm from "@/components/ProductDetail/CommentForm";
-import RelatedProducts from "@/components/ProductDetail/RelatedPosts";
+import AuthorSection from "@/components/PostDetail/AuthorSection";
+import SocialShare from "@/components/PostDetail/SocialShare";
+import CommentForm from "@/components/PostDetail/CommentForm";
+import RelatedProducts from "@/components/PostDetail/RelatedPosts";
 import { Prose } from "@/components/craft";
+import { decodeHtmlEntities } from "@/lib/utils";
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 
@@ -46,26 +47,24 @@ export default async function ProductPage({ searchParams }: ProductPageProps) {
       </div>
     );
   }
-  const decodeHtmlEntities = (text: string) => {
-    return text
-      .replace(/&amp;/g, "&")
-      .replace(/&lt;/g, "<")
-      .replace(/&gt;/g, ">")
-      .replace(/&quot;/g, '"')
-      .replace(/&#39;/g, "'")
-      .replace(/&nbsp;/g, " ");
-  };
-
   const decodedTitle = decodeHtmlEntities(product.title.rendered);
 
-  // Build breadcrumbs
+  // Get categories from WordPress post
+  const categories = product._embedded?.["wp:term"]?.[0] || [];
+  const primaryCategory = categories.length > 0 ? categories[0] : null;
+
+  // Build breadcrumbs with WordPress categories
   const breadcrumbs = [
     { label: "HOME", href: "/" },
-    {
-      label: decodedTitle.toUpperCase(),
-      href: `/product?slug=${product.slug}`,
-    },
-    { label: "母接式", isActive: false },
+    ...(primaryCategory
+      ? [
+          {
+            label: primaryCategory.name.toUpperCase(),
+            href: `/category/${primaryCategory.slug}`,
+            isActive: false,
+          },
+        ]
+      : []),
     { label: decodedTitle.toUpperCase(), isActive: true },
   ];
 

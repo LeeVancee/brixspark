@@ -8,11 +8,11 @@ export default function RecentComments() {
         <div className="flex items-start gap-1 flex-wrap">
           <Link
             href="#"
-            className="text-blue-600 hover:text-blue-700 transition-colors font-medium"
+            className="text-blue-500 hover:text-blue-600 transition-colors font-medium"
           >
             A WordPress Commenter
           </Link>
-          <span className="text-gray-500">on</span>
+          <span className="text-gray-500">on Hello world!</span>
         </div>
       </div>
     </div>

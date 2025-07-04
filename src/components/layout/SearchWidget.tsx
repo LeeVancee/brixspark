@@ -28,14 +28,10 @@ export default function SearchWidget() {
           onChange={(e) => setSearchQuery(e.target.value)}
           className="flex-1"
         />
-        <Button 
-          type="submit"
-          size="icon"
-          className="shrink-0"
-        >
+        <Button type="submit" size="icon" className="shrink-0">
           <Search className="w-4 h-4" />
         </Button>
       </form>
     </div>
   );
-} 
+}
