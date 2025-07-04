@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { WordPressPost } from "@/lib/type";
+import { Button } from "@/components/ui/button";
 
 interface RelatedProductsProps {
   posts: WordPressPost[];
@@ -95,20 +96,24 @@ export default function RelatedProducts({ posts }: RelatedProductsProps) {
           RELATED <span className="font-black">POSTS</span>
         </h2>
         <div className="flex items-center gap-2">
-          <button
+          <Button
             onClick={prevSlide}
-            className="p-2 rounded-full border border-gray-300 hover:bg-gray-50 transition-colors"
+            variant="outline"
+            size="icon"
+            className="rounded-full"
             disabled={totalPages <= 1}
           >
             <ChevronLeft className="w-5 h-5 text-gray-600" />
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={nextSlide}
-            className="p-2 rounded-full border border-gray-300 hover:bg-gray-50 transition-colors"
+            variant="outline"
+            size="icon"
+            className="rounded-full"
             disabled={totalPages <= 1}
           >
             <ChevronRight className="w-5 h-5 text-gray-600" />
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -116,7 +121,7 @@ export default function RelatedProducts({ posts }: RelatedProductsProps) {
         {currentPosts.map((post) => (
           <div key={post.id} className="group">
             <div className="bg-gray-50 rounded-lg overflow-hidden mb-4 p-4">
-              <div className="aspect-[4/3] relative">
+              <div className="h-56 relative">
                 <Image
                   src={
                     (post as any)._embedded?.["wp:featuredmedia"]?.[0]
@@ -124,6 +129,7 @@ export default function RelatedProducts({ posts }: RelatedProductsProps) {
                   }
                   alt={decodeHtmlEntities(post.title.rendered)}
                   fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   className="object-contain group-hover:scale-105 transition-transform duration-300"
                 />
               </div>
@@ -168,12 +174,14 @@ export default function RelatedProducts({ posts }: RelatedProductsProps) {
       {totalPages > 1 && (
         <div className="flex justify-center mt-6 gap-2">
           {Array.from({ length: totalPages }).map((_, index) => (
-            <button
+            <Button
               key={index}
               onClick={() => goToSlide(index)}
-              className={`w-3 h-3 rounded-full transition-colors ${
+              variant="ghost"
+              size="icon"
+              className={`w-3 h-3 p-0 rounded-full transition-colors ${
                 index === currentIndex
-                  ? "bg-blue-600"
+                  ? "bg-blue-600 hover:bg-blue-700"
                   : "bg-gray-300 hover:bg-gray-400"
               }`}
             />

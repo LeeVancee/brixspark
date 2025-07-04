@@ -5,11 +5,11 @@ import Sidebar from "@/components/layout/RightSidebar";
 import { getPostBySlug, getAllPosts } from "@/lib/queries";
 import { WordPressPost } from "@/lib/type";
 import Link from "next/link";
-import Image from "next/image";
 import AuthorSection from "@/components/ProductDetail/AuthorSection";
 import SocialShare from "@/components/ProductDetail/SocialShare";
 import CommentForm from "@/components/ProductDetail/CommentForm";
-import RelatedProducts from "@/components/ProductDetail/RelatedProducts";
+import RelatedProducts from "@/components/ProductDetail/RelatedPosts";
+import { Prose } from "@/components/craft";
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 
@@ -24,7 +24,6 @@ export default async function ProductPage({ searchParams }: ProductPageProps) {
 
   // Get product by slug from WordPress API
   const product = await getPostBySlug(slug);
-  // Decode HTML entities in title
 
   if (!product) {
     return (
@@ -123,7 +122,7 @@ export default async function ProductPage({ searchParams }: ProductPageProps) {
 
                 {/* Product Content */}
                 <div
-                  className="prose prose-base max-w-none mb-12"
+                  className="prose prose-base max-w-none mb-6"
                   dangerouslySetInnerHTML={{ __html: product.content.rendered }}
                 />
 

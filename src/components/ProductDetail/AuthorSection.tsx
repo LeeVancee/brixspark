@@ -14,29 +14,19 @@ export default function AuthorSection({ product }: AuthorSectionProps) {
       <h3 className="text-base font-semibold text-gray-800 mb-3">Author</h3>
       <div className="flex items-start gap-3">
         <div className="w-16 h-16 bg-gray-300 rounded-full flex items-center justify-center overflow-hidden">
-          {author?.avatar_urls ? (
-            <Image
-              src={author.avatar_urls["96"] || ""}
-              alt={author.name || "Author avatar"}
-              width={64}
-              height={64}
-              className="w-full h-full object-cover"
+          <svg
+            className="w-8 h-8 text-gray-500"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
             />
-          ) : (
-            <svg
-              className="w-8 h-8 text-gray-500"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-              />
-            </svg>
-          )}
+          </svg>
         </div>
         <div>
           <p className="font-semibold text-gray-800 text-sm">
