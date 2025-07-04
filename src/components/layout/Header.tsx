@@ -1,6 +1,5 @@
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Search } from "lucide-react";
+import SearchButton from "./SearchButton";
 
 export default function Header() {
   return (
@@ -11,7 +10,7 @@ export default function Header() {
           <div className="flex items-center">
             <Link
               href="/"
-              className="text-xl font-semibold text-blue-600 hover:text-blue-700"
+              className="text-xl font-semibold text-blue-500 hover:text-blue-600"
             >
               BRIXSPARK
             </Link>
@@ -32,13 +31,7 @@ export default function Header() {
               Contact Us
             </Link>
             <span className="text-gray-500">(123) 456-7890</span>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="text-gray-600 hover:text-gray-900"
-            >
-              <Search className="w-4 h-4" />
-            </Button>
+            <SearchButton />
           </div>
         </div>
       </div>

@@ -9,7 +9,6 @@ import AuthorSection from "@/components/PostDetail/AuthorSection";
 import SocialShare from "@/components/PostDetail/SocialShare";
 import CommentForm from "@/components/PostDetail/CommentForm";
 import RelatedProducts from "@/components/PostDetail/RelatedPosts";
-import { Prose } from "@/components/craft";
 import { decodeHtmlEntities } from "@/lib/utils";
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
@@ -38,7 +37,7 @@ export default async function ProductPage({ searchParams }: ProductPageProps) {
             <p className="text-gray-600 mb-8">
               The requested product could not be found.
             </p>
-            <Link href="/" className="text-blue-600 hover:text-blue-700">
+            <Link href="/" className="text-blue-500 hover:text-blue-600">
               Return to Home
             </Link>
           </div>
@@ -104,7 +103,7 @@ export default async function ProductPage({ searchParams }: ProductPageProps) {
                         .padStart(2, "0")}
                     </div>
                   </div>
-                  <div className="bg-blue-600 text-white text-center flex-1 flex items-center justify-center">
+                  <div className="bg-blue-500 text-white text-center flex-1 flex items-center justify-center">
                     <div className="text-xs font-medium leading-none">
                       {new Date(product.date).toLocaleDateString("en", {
                         month: "short",
@@ -115,7 +114,7 @@ export default async function ProductPage({ searchParams }: ProductPageProps) {
 
                 {/* Product Title */}
 
-                <h1 className="text-4xl  font-bold text-blue-600 mb-10">
+                <h1 className="text-4xl  font-bold text-blue-500 mb-10">
                   {decodedTitle}
                 </h1>
 

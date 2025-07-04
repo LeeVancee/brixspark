@@ -9,7 +9,7 @@ import {
   WordPressComment
 } from './type';
 
-const baseUrl = process.env.WORDPRESS_URL;
+const baseUrl =process.env.NEXT_PUBLIC_WORDPRESS_URL;
 
 export const getPostsBySearch = async (
   searchQuery: string,

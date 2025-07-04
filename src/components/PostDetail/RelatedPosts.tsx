@@ -54,8 +54,6 @@ export default function RelatedProducts({ posts }: RelatedProductsProps) {
         {/* 卡片网格 */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {currentPosts.map((post) => {
-            const { day, month } = formatDate(post.date);
-
             return (
               <Card
                 key={post.id}
@@ -99,7 +97,7 @@ export default function RelatedProducts({ posts }: RelatedProductsProps) {
 
                     <Link
                       href={`/product?slug=${post.slug}`}
-                      className="flex items-center gap-1 text-blue-500 hover:text-blue-600 transition-colors"
+                      className="flex items-center gap-1 text-blue-500 hover:text-blue-500 transition-colors"
                     >
                       <span className="text-sm font-medium">read more</span>
                       <ChevronRight className="w-4 h-4" />
@@ -123,7 +121,7 @@ export default function RelatedProducts({ posts }: RelatedProductsProps) {
               size="icon"
               className={`w-3 h-3 p-0 rounded-full transition-colors ${
                 index === currentIndex
-                  ? "bg-blue-600 hover:bg-blue-700"
+                  ? "bg-blue-500 hover:bg-blue-600"
                   : "bg-gray-300 hover:bg-gray-400"
               }`}
             />

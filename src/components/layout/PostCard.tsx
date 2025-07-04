@@ -44,7 +44,7 @@ export default function PostCard({ product }: PostCardProps) {
         <h2 className="text-xl font-medium text-blue-500 leading-tight">
           <Link
             href={`/product?slug=${product.slug}`}
-            className="hover:text-blue-600 transition-colors"
+            className="hover:text-blue-500 transition-colors"
           >
             {decodedTitle}
           </Link>

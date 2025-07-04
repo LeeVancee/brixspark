@@ -69,7 +69,7 @@ export default function CommentForm() {
           <input
             id="save-info"
             type="checkbox"
-            className="h-3 w-3 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+            className="h-3 w-3 text-blue-500 focus:ring-blue-500 border-gray-300 rounded"
           />
           <label
             htmlFor="save-info"
@@ -82,7 +82,7 @@ export default function CommentForm() {
 
         <Button
           type="submit"
-          className="bg-blue-600 text-white px-4 py-2 text-sm"
+          className="bg-blue-500 text-white px-4 py-2 text-sm"
         >
           Post Comment
         </Button>

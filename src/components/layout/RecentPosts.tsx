@@ -21,9 +21,9 @@ export default async function RecentPosts() {
             <div key={post.id} className="group">
               <Link
                 href={`/product?slug=${post.slug}`}
-                className="flex items-center gap-2 text-gray-600 hover:text-blue-600 transition-colors text-sm"
+                className="flex items-center gap-2 text-gray-600 hover:text-blue-500 transition-colors text-sm"
               >
-                <ChevronRight className="w-3 h-3 text-gray-400 group-hover:text-blue-600 transition-colors shrink-0" />
+                <ChevronRight className="w-3 h-3 text-gray-400 group-hover:text-blue-500 transition-colors shrink-0" />
                 <span className="line-clamp-2">
                   {decodeHtmlEntities(post.title.rendered)}
                 </span>

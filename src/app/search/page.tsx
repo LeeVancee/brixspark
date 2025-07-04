@@ -64,7 +64,7 @@ function Pagination({
           href={`/search?q=${encodeURIComponent(searchQuery)}&page=${page}`}
           className={`px-3 py-2 text-sm font-medium rounded-md ${
             page === currentPage
-              ? "text-white bg-blue-600 border border-blue-600"
+              ? "text-white bg-blue-500 border border-blue-500"
               : "text-gray-500 bg-white border border-gray-300 hover:bg-gray-50"
           }`}
         >
@@ -169,7 +169,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
                   <p className="text-red-500 text-lg mb-4">{error}</p>
                   <Link
                     href={`/search?q=${encodeURIComponent(searchQuery)}`}
-                    className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 inline-block"
+                    className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 inline-block"
                   >
                     Try Again
                   </Link>

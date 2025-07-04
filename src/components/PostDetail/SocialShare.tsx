@@ -7,7 +7,7 @@ export default function SocialShare() {
       <div className="flex flex-wrap gap-2">
         <a
           href="#"
-          className="bg-blue-600 text-white p-2 rounded-lg flex items-center justify-center w-10 h-10 transition-colors duration-200"
+          className="bg-blue-500 text-white p-2 rounded-lg flex items-center justify-center w-10 h-10 transition-colors duration-200"
           title="Share on Facebook"
         >
           <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">

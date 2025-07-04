@@ -32,7 +32,7 @@ export default function AuthorSection({ product }: AuthorSectionProps) {
             {author?.link ? (
               <Link
                 href={author.link}
-                className="text-blue-600 hover:text-blue-700"
+                className="text-blue-500 hover:text-blue-600"
               >
                 {author.name}
               </Link>
@@ -44,8 +44,8 @@ export default function AuthorSection({ product }: AuthorSectionProps) {
             {author?.description || "Content contributor"}
           </p>
           {author?.url && (
-            <p className="text-blue-600 text-xs mt-1">
-              <Link href={author.url} className="hover:text-blue-700">
+            <p className="text-blue-500 text-xs mt-1">
+              <Link href={author.url} className="hover:text-blue-600">
                 Visit author&apos;s website
               </Link>
             </p>
