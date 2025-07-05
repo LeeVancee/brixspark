@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import Header from "@/components/layout/Header";
-import PageHeader from "@/components/layout/PageHeader";
+import PageHeader from "@/components/layout/HeroSection";
 import Footer from "@/components/layout/Footer";
 import PostCard from "@/components/layout/PostCard";
 import RightSidebar from "@/components/layout/RightSidebar";
@@ -59,11 +59,11 @@ function Pagination({
   };
 
   return (
-    <div className="flex justify-center items-center mt-6 space-x-2">
+    <div className="flex justify-center items-center mt-6 space-x-1 md:space-x-2 px-4">
       {currentPage > 1 && (
         <Link
           href={`/categories/${categorySlug}?page=${currentPage - 1}`}
-          className="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+          className="px-2 md:px-3 py-2 text-xs md:text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
         >
           Previous
         </Link>
@@ -72,7 +72,7 @@ function Pagination({
         <Link
           key={page}
           href={`/categories/${categorySlug}?page=${page}`}
-          className={`px-3 py-2 text-sm font-medium rounded-md ${
+          className={`px-2 md:px-3 py-2 text-xs md:text-sm font-medium rounded-md ${
             page === currentPage
               ? "text-white bg-blue-500 border border-blue-500"
               : "text-gray-500 bg-white border border-gray-300 hover:bg-gray-50"
@@ -84,7 +84,7 @@ function Pagination({
       {currentPage < totalPages && (
         <Link
           href={`/categories/${categorySlug}?page=${currentPage + 1}`}
-          className="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+          className="px-2 md:px-3 py-2 text-xs md:text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
         >
           Next
         </Link>
@@ -135,8 +135,8 @@ export default async function CategoryPage(props: CategoryPageProps) {
       <Header />
       <PageHeader title={category.name} breadcrumbs={breadcrumbs} />
       <main className="flex-1 pb-12">
-        <div className="w-full max-w-6xl mx-auto px-4 py-6">
-          <div className="flex flex-col lg:flex-row gap-6">
+        <div className="w-full max-w-6xl mx-auto px-4 py-4 lg:py-6">
+          <div className="flex flex-col lg:flex-row gap-4 lg:gap-6">
             {/* 左侧内容区 */}
             <div className="flex-1 w-full lg:w-3/4">
               <div className="mb-4">
@@ -156,7 +156,7 @@ export default async function CategoryPage(props: CategoryPageProps) {
               </div>
               {posts.length > 0 ? (
                 <>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 justify-items-center md:justify-items-stretch">
                     {posts.map((post) => (
                       <PostCard key={post.id} product={post} />
                     ))}
@@ -175,10 +175,15 @@ export default async function CategoryPage(props: CategoryPageProps) {
                 </div>
               )}
             </div>
-            {/* 右侧边栏 */}
-            <div className="w-full lg:w-1/4">
+            {/* 右侧边栏 - 移动端隐藏 */}
+            <div className="hidden lg:block w-full lg:w-1/4">
               <RightSidebar />
             </div>
+          </div>
+
+          {/* 移动端侧边栏 - 显示在底部 */}
+          <div className="lg:hidden mt-6">
+            <RightSidebar />
           </div>
         </div>
       </main>

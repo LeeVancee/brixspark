@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { Metadata } from "next";
 import Header from "@/components/layout/Header";
-import PageHeader from "@/components/layout/PageHeader";
+import PageHeader from "@/components/layout/HeroSection";
 import Footer from "@/components/layout/Footer";
 import PostCard from "@/components/layout/PostCard";
 import RightSidebar from "@/components/layout/RightSidebar";

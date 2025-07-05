@@ -1,18 +1,17 @@
 import { Metadata } from "next";
 import Header from "@/components/layout/Header";
-import PageHeader from "@/components/layout/PageHeader";
+import PageHeader from "@/components/layout/HeroSection";
 import Footer from "@/components/layout/Footer";
 import Sidebar from "@/components/layout/RightSidebar";
-import { getPostBySlug, getAllPosts } from "@/lib/queries";
+import { getPostById, getAllPosts } from "@/lib/queries";
 import { WordPressPost } from "@/lib/type";
 import Link from "next/link";
 import AuthorSection from "@/components/PostDetail/AuthorSection";
 import SocialShare from "@/components/PostDetail/SocialShare";
 import CommentForm from "@/components/PostDetail/CommentForm";
-import RelatedProducts from "@/components/PostDetail/RelatedPosts";
-
 import { decodeHtmlEntities } from "@/lib/utils";
 import { Prose } from "@/components/craft";
+import RelatedPosts from "@/components/PostDetail/RelatedPosts";
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 
@@ -24,9 +23,10 @@ export async function generateMetadata({
   searchParams,
 }: ProductPageProps): Promise<Metadata> {
   const params = await searchParams;
-  const slug = params.slug as string;
+  const id = params.p as string;
 
-  const product = await getPostBySlug(slug);
+  const product = await getPostById(parseInt(id));
+
   if (!product) {
     return {
       title: "Post Not Found - BRIXSPARK",
@@ -40,11 +40,9 @@ export async function generateMetadata({
 
 export default async function ProductPage({ searchParams }: ProductPageProps) {
   const params = await searchParams;
-  const slug =
-    (params.slug as string) || "21358-minifigure-vending-machine-p90701";
+  const id = params.p as string;
 
-  // Get product by slug from WordPress API
-  const product = await getPostBySlug(slug);
+  const product = await getPostById(parseInt(id));
 
   if (!product) {
     return (
@@ -80,7 +78,7 @@ export default async function ProductPage({ searchParams }: ProductPageProps) {
       ? [
           {
             label: primaryCategory.name.toUpperCase(),
-            href: `/category/${primaryCategory.slug}`,
+            href: `/categories/${primaryCategory.slug}`,
             isActive: false,
           },
         ]
@@ -111,7 +109,7 @@ export default async function ProductPage({ searchParams }: ProductPageProps) {
       <main className="flex-1  pb-12">
         <div className="w-full max-w-6xl mx-auto px-4 py-6">
           <div className="flex flex-col lg:flex-row gap-6">
-            <div className="flex-1 w-full">
+            <div className="flex-1 w-full lg:w-3/4">
               {/* Product Content with Date Label */}
               <div className="relative bg-white rounded-lg shadow-sm p-4 mb-4">
                 {/* Date Label positioned at top-left */}
@@ -161,13 +159,13 @@ export default async function ProductPage({ searchParams }: ProductPageProps) {
 
                 {/* Related Posts Section - aligned with main content */}
                 <div className="mt-12">
-                  <RelatedProducts posts={relatedPosts} />
+                  <RelatedPosts posts={relatedPosts} />
                 </div>
               </div>
             </div>
 
             {/* Right Sidebar (30% width) */}
-            <div className="w-full lg:w-1/4">
+            <div className="w-full lg:w-1/4 lg:min-w-[300px]">
               <Sidebar />
             </div>
           </div>

@@ -1,4 +1,4 @@
-interface PageHeaderProps {
+interface HeroSectionProps {
   title: string;
   breadcrumbs: Array<{
     label: string;
@@ -7,7 +7,7 @@ interface PageHeaderProps {
   }>;
 }
 
-export default function PageHeader({ title, breadcrumbs }: PageHeaderProps) {
+export default function HeroSection({ title, breadcrumbs }: HeroSectionProps) {
   return (
     <section className="bg-neutral-900 text-white py-8">
       <div className="w-full max-w-6xl mx-auto px-4">
