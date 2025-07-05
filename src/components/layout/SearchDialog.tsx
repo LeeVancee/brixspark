@@ -154,18 +154,7 @@ export default function SearchDialog({
                 );
               })}
             </CommandGroup>
-          )}
-
-          <CommandGroup heading="Suggestions">
-            <CommandItem onSelect={() => handleSelect("/categories/models")}>
-              <File className="mr-2 h-4 w-4" />
-              <span>Models</span>
-            </CommandItem>
-            <CommandItem onSelect={() => handleSelect("/categories/bricks")}>
-              <File className="mr-2 h-4 w-4" />
-              <span>Bricks</span>
-            </CommandItem>
-          </CommandGroup>
+          )}  
         </CommandList>
       </CommandDialog>
     </>
