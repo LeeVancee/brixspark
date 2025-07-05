@@ -19,13 +19,13 @@ export default function Header() {
           {/* Right Navigation */}
           <div className="flex items-center space-x-6 text-sm text-gray-600">
             <Link
-              href="/about"
+              href="/"
               className="hover:text-gray-900 transition-colors"
             >
               About Us
             </Link>
             <Link
-              href="/contact"
+              href="/"
               className="hover:text-gray-900 transition-colors"
             >
               Contact Us
