@@ -57,20 +57,22 @@ export default function RelatedProducts({ posts }: RelatedProductsProps) {
             return (
               <Card
                 key={post.id}
-                className="w-full max-w-56 overflow-hidden bg-white rounded-lg shadow-lg p-0"
+                className="w-full max-w-56 overflow-hidden bg-white rounded-lg shadow-lg gap-2 p-0"
               >
                 {/* Product Image Section */}
-                <div className="relative bg-gray-50 p-4">
-                  <Image
-                    src={
-                      post._embedded?.["wp:featuredmedia"]?.[0]?.source_url ||
-                      "/home-n.png"
-                    }
-                    alt={decodeHtmlEntities(post.title.rendered)}
-                    width={400}
-                    height={300}
-                    className="w-full h-40 object-contain"
-                  />
+                <div className="relative">
+                  <div className=" aspect-square bg-gray-50">
+                    <Image
+                      src={
+                        post._embedded?.["wp:featuredmedia"]?.[0]?.source_url ||
+                        "/home-n.png"
+                      }
+                      alt={decodeHtmlEntities(post.title.rendered)}
+                      width={400}
+                      height={400}
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
                 </div>
 
                 {/* Content Section */}

@@ -10,7 +10,9 @@ import AuthorSection from "@/components/PostDetail/AuthorSection";
 import SocialShare from "@/components/PostDetail/SocialShare";
 import CommentForm from "@/components/PostDetail/CommentForm";
 import RelatedProducts from "@/components/PostDetail/RelatedPosts";
+
 import { decodeHtmlEntities } from "@/lib/utils";
+import { Prose } from "@/components/craft";
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 
@@ -87,15 +89,15 @@ export default async function ProductPage({ searchParams }: ProductPageProps) {
   ];
 
   // Parallelize related products API call (this will be handled by Sidebar components)
-  // Only get related products for the main content area
+  // Get more related products for pagination
   const relatedPostsResponse = await getAllPosts({
-    per_page: 4,
+    per_page: 10, // 增加获取数量以支持分页
     orderby: "date",
     order: "desc",
   });
-  const relatedPosts = relatedPostsResponse.posts
-    .filter((p: WordPressPost) => p.id !== product.id)
-    .slice(0, 3);
+  const relatedPosts = relatedPostsResponse.posts.filter(
+    (p: WordPressPost) => p.id !== product.id
+  );
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
@@ -138,8 +140,7 @@ export default async function ProductPage({ searchParams }: ProductPageProps) {
                 </h1>
 
                 {/* Product Content */}
-                <div
-                  className="prose prose-base max-w-none mb-6"
+                <Prose
                   dangerouslySetInnerHTML={{ __html: product.content.rendered }}
                 />
 

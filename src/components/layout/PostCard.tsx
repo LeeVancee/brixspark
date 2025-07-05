@@ -14,7 +14,7 @@ export default function PostCard({ product }: PostCardProps) {
   const decodedTitle = decodeHtmlEntities(product.title.rendered);
 
   return (
-    <Card className="w-full max-w-sm overflow-hidden bg-white shadow-lg p-0">
+    <Card className="w-full max-w-sm overflow-hidden bg-white shadow-lg gap-2 p-0">
       <div className="relative">
         <div className="aspect-square bg-gray-50">
           <Image
@@ -41,7 +41,7 @@ export default function PostCard({ product }: PostCardProps) {
       </div>
 
       <CardContent className="p-3 space-y-4">
-        <h2 className="text-xl font-medium text-blue-500 leading-tight">
+        <h2 className="text-xl font-medium text-blue-500 leading-tight line-clamp-2">
           <Link
             href={`/product?slug=${product.slug}`}
             className="hover:text-blue-500 transition-colors"
