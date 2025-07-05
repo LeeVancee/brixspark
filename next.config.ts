@@ -5,15 +5,11 @@ const nextConfig: NextConfig = {
   remotePatterns: [
     {
       protocol: 'https',
-      hostname: `${process.env.HOSTNAME}`,
+      hostname: '**',
     },
     {
       protocol: 'http',
-      hostname: `${process.env.HOSTNAME}`,
-    },
-    {
-      protocol: 'https',
-      hostname: 'secure.gravatar.com',
+      hostname: '**',
     },
   ],
  }
