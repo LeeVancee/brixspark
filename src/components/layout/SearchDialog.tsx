@@ -78,11 +78,11 @@ export default function SearchDialog({
 
   // 选中后跳转
   const handleSelect = useCallback(
-    (slug: string) => {
-      if (slug.startsWith("/")) {
-        router.push(slug);
+    (id: string) => {
+      if (id.startsWith("/")) {
+        router.push(id);
       } else {
-        router.push(`/product?slug=${slug}`);
+        router.push(`/product?p=${id}`);
       }
       onOpenChange(false);
     },
@@ -128,7 +128,7 @@ export default function SearchDialog({
                   <CommandItem
                     key={post.id}
                     value={post.title.rendered}
-                    onSelect={() => handleSelect(post.slug)}
+                    onSelect={() => handleSelect(post.id.toString())}
                     className="cursor-pointer"
                   >
                     {imageUrl ? (
@@ -154,7 +154,7 @@ export default function SearchDialog({
                 );
               })}
             </CommandGroup>
-          )}  
+          )}
         </CommandList>
       </CommandDialog>
     </>
