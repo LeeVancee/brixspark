@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  brixspark:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: brixspark-app
+    restart: unless-stopped
+    ports:
+      - "80:3000"
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - ./.env:/app/.env:ro
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    networks:
+      - brixspark-network
+
+networks:
+  brixspark-network:
+    driver: bridge
