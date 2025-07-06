@@ -30,12 +30,7 @@ export interface WordPressPost {
   sticky: boolean;
   template: string;
   format: string;
-  meta: {
-    footnotes: string;
-    pdf_url?: string;
-    download_count?: number;
-    [key: string]: unknown;
-  };
+  meta: {}[];
   categories: number[];
   tags: number[];
   class_list: string[];
@@ -93,7 +88,7 @@ export interface WordPressMedia {
       };
     };
     image_meta: {
-      [key: string]: unknown;
+      [x: string]: {};
     };
   };
   source_url: string;
@@ -109,7 +104,7 @@ export interface WordPressCategory {
   slug: string;
   taxonomy: string;
   parent: number;
-  meta: unknown[];
+  meta: {}[];
   _links: {
     [key: string]: WordPressLink[];
   };
@@ -123,7 +118,7 @@ export interface WordPressTag {
   name: string;
   slug: string;
   taxonomy: string;
-  meta: unknown[];
+  meta: {}[];
   _links: {
     [key: string]: WordPressLink[];
   };
@@ -151,7 +146,7 @@ export interface WordPressAuthor {
   avatar_urls: {
     [key: string]: string;
   };
-  meta: unknown[];
+  meta: {}[];
   _links: {
     [key: string]: WordPressLink[];
   };
@@ -176,7 +171,7 @@ export interface WordPressComment {
   author_avatar_urls: {
     [key: string]: string;
   };
-  meta: unknown[];
+  meta: {}[];
   _links: {
     [key: string]: WordPressLink[];
   };
