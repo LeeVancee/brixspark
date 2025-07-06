@@ -147,7 +147,15 @@ export default async function ProductPage({ searchParams }: ProductPageProps) {
 
                 {/* Social Share */}
                 <div className="mt-8">
-                  <SocialShare />
+                  <SocialShare
+                    title={decodedTitle}
+                    description={decodeHtmlEntities(
+                      product.excerpt.rendered
+                        .replace(/<[^>]*>/g, "")
+                        .substring(0, 200)
+                    )}
+                    url={`https://${process.env.HOSTNAME}/product?p=${product.id}`}
+                  />
                 </div>
 
                 {/* Comment Form */}

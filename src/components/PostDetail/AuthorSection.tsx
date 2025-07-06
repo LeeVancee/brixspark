@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { WordPressPost } from "@/lib/type";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 interface AuthorSectionProps {
   product: WordPressPost;
@@ -8,32 +9,47 @@ interface AuthorSectionProps {
 export default function AuthorSection({ product }: AuthorSectionProps) {
   const author = product._embedded?.author?.[0];
 
+  // 获取作者头像 URL (WordPress 通常提供多种尺寸)
+  const getAvatarUrl = () => {
+    if (author?.avatar_urls) {
+      // 优先使用较大的头像，如果没有则使用较小的
+      return (
+        author.avatar_urls["96"] ||
+        author.avatar_urls["48"] ||
+        author.avatar_urls["24"] ||
+        null
+      );
+    }
+    return null;
+  };
+
+  // 获取作者姓名的首字母作为 fallback
+  const getInitials = (name: string) => {
+    return name
+      .split(" ")
+      .map((word) => word.charAt(0))
+      .join("")
+      .toUpperCase()
+      .slice(0, 2);
+  };
+
   return (
     <div className=" p-4 mb-4">
       <h3 className="text-base font-semibold text-gray-800 mb-3">Author</h3>
       <div className="flex items-start gap-3">
-        <div className="w-16 h-16 bg-gray-300 rounded-full flex items-center justify-center overflow-hidden">
-          <svg
-            className="w-8 h-8 text-gray-500"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-            />
-          </svg>
-        </div>
+        <Avatar className="w-16 h-16">
+          <AvatarImage
+            src={getAvatarUrl() || undefined}
+            alt={author?.name || "Author"}
+          />
+          <AvatarFallback className="text-lg font-semibold">
+            {author?.name ? getInitials(author.name) : "A"}
+          </AvatarFallback>
+        </Avatar>
         <div>
           <p className="font-semibold text-gray-800 text-sm">
             {author?.link ? (
-              <Link
-                href={author.link}
-                className="text-blue-500 hover:text-blue-600"
-              >
+              <Link href="#" className="text-blue-500 hover:text-blue-600">
                 {author.name}
               </Link>
             ) : (
