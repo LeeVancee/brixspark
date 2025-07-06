@@ -149,12 +149,10 @@ export default async function ProductPage({ searchParams }: ProductPageProps) {
                 <div className="mt-8">
                   <SocialShare
                     title={decodedTitle}
-                    description={decodeHtmlEntities(
-                      product.excerpt.rendered
-                        .replace(/<[^>]*>/g, "")
-                        .substring(0, 200)
-                    )}
-                    url={`https://${process.env.HOSTNAME}/product?p=${product.id}`}
+                    description={product.excerpt.rendered
+                      .replace(/<[^>]*>/g, "")
+                      .substring(0, 200)}
+                    url={`${process.env.NEXT_PUBLIC_WORDPRESS_URL}/product?p=${product.id}`}
                   />
                 </div>
 

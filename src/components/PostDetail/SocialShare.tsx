@@ -50,7 +50,7 @@ export default function SocialShare({
     switch (platform) {
       case "twitter":
         // Twitter/X 分享格式
-        shareUrl = `https://x.com/intent/post?text=${encodedTitle}&url=${encodedUrl}`;
+        shareUrl = `https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`;
         break;
       case "facebook":
         shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}&quote=${encodedTitle}`;
@@ -73,31 +73,6 @@ export default function SocialShare({
 
     // 在新标签页中打开分享链接
     window.open(shareUrl, "_blank");
-  };
-
-  const handleCopyLink = async () => {
-    try {
-      await navigator.clipboard.writeText(shareData.url);
-      // 简单的提示效果
-      const button = document.querySelector(
-        "[data-copy-button]"
-      ) as HTMLElement;
-      if (button) {
-        // 找到对应的 tooltip content
-        const tooltipContent = button
-          .closest('[data-slot="tooltip"]')
-          ?.querySelector('[data-slot="tooltip-content"] p');
-        if (tooltipContent) {
-          const originalText = tooltipContent.textContent;
-          tooltipContent.textContent = "Copied!";
-          setTimeout(() => {
-            tooltipContent.textContent = originalText;
-          }, 2000);
-        }
-      }
-    } catch (err) {
-      console.error("复制失败:", err);
-    }
   };
 
   return (
@@ -188,34 +163,6 @@ export default function SocialShare({
           </TooltipTrigger>
           <TooltipContent>
             <p>Share on Telegram</p>
-          </TooltipContent>
-        </Tooltip>
-
-        {/* Copy Link */}
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <button
-              onClick={handleCopyLink}
-              data-copy-button
-              className="bg-gray-600 text-white p-2 rounded-lg flex items-center justify-center w-10 h-10 hover:bg-gray-700 transition-colors duration-200"
-            >
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
-                />
-              </svg>
-            </button>
-          </TooltipTrigger>
-          <TooltipContent>
-            <p>Copy Link</p>
           </TooltipContent>
         </Tooltip>
 
