@@ -10,7 +10,7 @@ import AuthorSection from "@/components/PostDetail/AuthorSection";
 import SocialShare from "@/components/PostDetail/SocialShare";
 import CommentForm from "@/components/PostDetail/CommentForm";
 import { decodeHtmlEntities } from "@/lib/utils";
-import { Prose } from "@/components/craft";
+import ContentRenderer from "@/components/ContentRenderer";
 import RelatedPosts from "@/components/PostDetail/RelatedPosts";
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
@@ -138,9 +138,7 @@ export default async function ProductPage({ searchParams }: ProductPageProps) {
                 </h1>
 
                 {/* Product Content */}
-                <Prose
-                  dangerouslySetInnerHTML={{ __html: product.content.rendered }}
-                />
+                <ContentRenderer content={product.content.rendered} />
 
                 {/* Author Section */}
                 <div className="mt-8">

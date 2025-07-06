@@ -171,4 +171,49 @@
   .prose .wp-block-file {
     @apply rounded-lg border p-4 bg-gray-50;
   }
+  
+  /* 视频响应式样式 */
+  .prose .wp-block-embed {
+    @apply w-full my-6 rounded-lg overflow-hidden;
+  }
+  
+  .prose .wp-block-embed__wrapper {
+    @apply relative w-full overflow-hidden rounded-lg;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  }
+  
+  .prose .wp-block-embed iframe {
+    @apply absolute top-0 left-0 w-full h-full border-0;
+  }
+  
+  /* 通用 iframe 响应式样式 */
+  .prose iframe {
+    @apply max-w-full rounded-lg;
+  }
+  
+  /* 视频响应式包装器 */
+  .video-responsive-wrapper {
+    @apply relative w-full my-6 overflow-hidden rounded-lg bg-gray-100;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  }
+  
+  .video-responsive-wrapper iframe {
+    @apply absolute top-0 left-0 w-full h-full border-0;
+  }
+  
+  /* 移动端优化 */
+  @media (max-width: 768px) {
+    .prose iframe {
+      @apply w-full;
+      max-width: 100% !important;
+    }
+    
+    .prose .wp-block-embed {
+      @apply my-4;
+    }
+    
+    .video-responsive-wrapper {
+      @apply my-4;
+    }
+  }
 }

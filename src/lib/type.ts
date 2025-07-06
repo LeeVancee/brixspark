@@ -1,4 +1,5 @@
 // WordPress Post Types
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface WordPressPost {
   id: number;
   date: string;
@@ -30,7 +31,7 @@ export interface WordPressPost {
   sticky: boolean;
   template: string;
   format: string;
-  meta: {}[];
+  meta: Record<string, unknown>[];
   categories: number[];
   tags: number[];
   class_list: string[];
@@ -88,7 +89,7 @@ export interface WordPressMedia {
       };
     };
     image_meta: {
-      [x: string]: {};
+      [x: string]: unknown;
     };
   };
   source_url: string;
@@ -104,7 +105,7 @@ export interface WordPressCategory {
   slug: string;
   taxonomy: string;
   parent: number;
-  meta: {}[];
+  meta: Record<string, unknown>[];
   _links: {
     [key: string]: WordPressLink[];
   };
@@ -118,7 +119,7 @@ export interface WordPressTag {
   name: string;
   slug: string;
   taxonomy: string;
-  meta: {}[];
+  meta: Record<string, unknown>[];
   _links: {
     [key: string]: WordPressLink[];
   };
@@ -146,7 +147,7 @@ export interface WordPressAuthor {
   avatar_urls: {
     [key: string]: string;
   };
-  meta: {}[];
+  meta: Record<string, unknown>[];
   _links: {
     [key: string]: WordPressLink[];
   };
@@ -171,7 +172,7 @@ export interface WordPressComment {
   author_avatar_urls: {
     [key: string]: string;
   };
-  meta: {}[];
+  meta: Record<string, unknown>[];
   _links: {
     [key: string]: WordPressLink[];
   };

@@ -42,7 +42,7 @@ export const getPostsBySearch = async (
     const url = `${baseUrl}/wp-json/wp/v2/posts?${params.toString()}`;
     
     const response = await fetch(url, {
-      next: { revalidate: 300 } // Cache for 5 minutes
+      next: { revalidate: 10 }, // Cache for 10 seconds
     });
 
     if (!response.ok) {
@@ -83,7 +83,7 @@ export const getPostById = async (id: number): Promise<WordPressPost | null> => 
 
     const response = await fetch(`${baseUrl}/wp-json/wp/v2/posts/${id}?_embed=true`, {
       // Add caching for better performance
-      next: { revalidate: 300 }, // Cache for 5 minutes
+      next: { revalidate: 10 }, // Cache for 10 seconds
     });
     
     if (!response.ok) {
@@ -109,7 +109,7 @@ export const getPostBySlug = async (slug: string): Promise<WordPressPost | null>
 
     const response = await fetch(`${baseUrl}/wp-json/wp/v2/posts?slug=${slug}&_embed=true`, {
       // Add caching for better performance
-      next: { revalidate: 300 }, // Cache for 5 minutes
+      next: { revalidate: 10 }, // Cache for 10 seconds
     });
     
     if (!response.ok) {
@@ -133,7 +133,7 @@ export const getCategories = async (): Promise<WordPressCategoriesResponse> => {
     }
 
     const response = await fetch(`${baseUrl}/wp-json/wp/v2/categories?per_page=100`, {
-      next: { revalidate: 300 } // Cache for 5 minutes
+      next: { revalidate: 10 }, // Cache for 10 seconds
     });
     
     if (!response.ok) {
@@ -167,7 +167,7 @@ export const getTags = async (): Promise<WordPressTagsResponse> => {
     }
 
     const response = await fetch(`${baseUrl}/wp-json/wp/v2/tags?per_page=100`, {
-      next: { revalidate: 300 } // Cache for 5 minutes
+      next: { revalidate: 10 }, // Cache for 10 seconds
     });
     
     if (!response.ok) {
@@ -224,7 +224,7 @@ export const getAllPosts = async (options: SearchParams = {}): Promise<WordPress
       },
       signal: AbortSignal.timeout(10000),
       // Add caching for better performance
-      next: { revalidate: 300 }, // Cache for 5 minutes
+      next: { revalidate: 10 }, // Cache for 10 seconds
     });
 
     if (!response.ok) {
@@ -275,7 +275,7 @@ export const getRecentComments = async (limit: number = 5): Promise<WordPressCom
       },
       signal: AbortSignal.timeout(10000),
       // Add caching for better performance
-      next: { revalidate: 300 }, // Cache for 5 minutes
+      next: { revalidate: 10 }, // Cache for 10 seconds
     });
 
     if (!response.ok) {
@@ -314,7 +314,7 @@ export const getRecentCommentsWithPosts = async (limit: number = 5): Promise<Arr
         'Content-Type': 'application/json',
       },
       signal: AbortSignal.timeout(10000),
-      next: { revalidate: 300 }, // Cache for 5 minutes
+      next: { revalidate: 10 }, // Cache for 10 seconds
     });
 
     let posts: WordPressPost[] = [];
