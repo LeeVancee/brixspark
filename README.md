@@ -1,3 +1,5 @@
+# BRIXSPARK
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
@@ -28,6 +30,39 @@ To learn more about Next.js, take a look at the following resources:
 - [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+## Docker 快速启动
+
+项目提供了Docker支持，可以快速在任何环境中部署和运行。
+
+### 使用Docker Compose启动
+
+```bash
+# 构建并启动容器
+docker-compose up -d
+
+# 查看日志
+docker-compose logs -f
+
+# 停止容器
+docker-compose down
+```
+
+### 环境变量配置
+
+1. 复制示例环境变量文件
+```bash
+cp .env.example .env
+```
+
+2. 根据需要修改`.env`文件中的配置
+
+### Docker部署优势
+
+- 环境一致性：消除"在我机器上能运行"的问题
+- 简化部署流程：一条命令即可启动整个应用
+- 容易伸缩：可以轻松在不同服务器上部署
+- 隔离性好：不会影响宿主机的其他服务
 
 ## Deploy on Vercel
 
