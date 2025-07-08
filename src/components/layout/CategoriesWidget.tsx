@@ -14,7 +14,7 @@ export default async function CategoriesWidget() {
 
   // Filter out uncategorized and sort by post count
   const filteredCategories = categories
-    .filter((category) => category.slug !== "uncategorized")
+    //.filter((category) => category.slug !== "uncategorized")
     .sort((a, b) => b.count - a.count)
     .slice(0, 10); // Show top 10 categories
 
