@@ -34,28 +34,73 @@ export function processPDFLinks(html: string): {
   pdfUrls: Array<{ url: string; title: string; id: string }>;
 } {
   const pdfUrls: Array<{ url: string; title: string; id: string }> = [];
-  
-  // Regular expression to match PDF links
-  const pdfLinkRegex = /<a[^>]*href="([^"]*\.pdf)"[^>]*>(.*?)<\/a>/gi;
-  
   let processedHtml = html;
-  let match;
   let counter = 0;
   
-  while ((match = pdfLinkRegex.exec(html)) !== null) {
-    const [fullMatch, pdfUrl, linkText] = match;
-    const pdfId = `pdf-viewer-${counter++}`;
+  // First, handle WordPress file blocks (.wp-block-file)
+  const fileBlockRegex = /<div[^>]*class="[^"]*wp-block-file[^"]*"[^>]*>([\s\S]*?)<\/div>/gi;
+  let fileBlockMatch;
+  
+  while ((fileBlockMatch = fileBlockRegex.exec(html)) !== null) {
+    const [fullFileBlock, fileBlockContent] = fileBlockMatch;
     
-    // Store PDF info
-    pdfUrls.push({
-      url: pdfUrl,
-      title: linkText.replace(/<[^>]*>/g, ''), // Remove HTML tags from title
-      id: pdfId
-    });
+    // Extract PDF URL from the file block
+    const pdfUrlMatch = fileBlockContent.match(/href="([^"]*\.pdf)"/i);
+    if (pdfUrlMatch) {
+      const pdfUrl = pdfUrlMatch[1];
+      const pdfId = `pdf-viewer-${counter++}`;
+      
+      // Extract title from the file block - try to get filename or link text
+      let title = 'PDF Document';
+      
+      // Try to get filename from URL
+      const urlParts = pdfUrl.split('/');
+      const filename = urlParts[urlParts.length - 1];
+      if (filename && filename.includes('.pdf')) {
+        title = filename.replace('.pdf', '');
+      }
+      
+      // Or try to get text from non-button link
+      const linkTextMatch = fileBlockContent.match(/<a[^>]*href="[^"]*\.pdf"[^>]*(?!class="[^"]*wp-block-file__button[^"]*")[^>]*>([^<]+)<\/a>/i);
+      if (linkTextMatch && linkTextMatch[1]) {
+        title = linkTextMatch[1].trim();
+      }
+      
+      // Store PDF info
+      pdfUrls.push({
+        url: pdfUrl,
+        title: title,
+        id: pdfId
+      });
+      
+      // Replace the entire file block with a placeholder
+      const placeholder = `<div class="pdf-placeholder" data-pdf-id="${pdfId}" data-pdf-url="${pdfUrl}" data-pdf-title="${title}"></div>`;
+      processedHtml = processedHtml.replace(fullFileBlock, placeholder);
+    }
+  }
+  
+  // Then handle regular PDF links (that are not already processed)
+  const pdfLinkRegex = /<a[^>]*href="([^"]*\.pdf)"[^>]*>(.*?)<\/a>/gi;
+  let pdfLinkMatch;
+  
+  while ((pdfLinkMatch = pdfLinkRegex.exec(processedHtml)) !== null) {
+    const [fullMatch, pdfUrl, linkText] = pdfLinkMatch;
     
-    // Replace the PDF link with a placeholder div
-    const placeholder = `<div class="pdf-placeholder" data-pdf-id="${pdfId}" data-pdf-url="${pdfUrl}" data-pdf-title="${linkText.replace(/<[^>]*>/g, '')}"></div>`;
-    processedHtml = processedHtml.replace(fullMatch, placeholder);
+    // Skip if this link is already processed (part of a file block that was replaced)
+    if (processedHtml.includes(fullMatch)) {
+      const pdfId = `pdf-viewer-${counter++}`;
+      
+      // Store PDF info
+      pdfUrls.push({
+        url: pdfUrl,
+        title: linkText.replace(/<[^>]*>/g, ''), // Remove HTML tags from title
+        id: pdfId
+      });
+      
+      // Replace the PDF link with a placeholder div
+      const placeholder = `<div class="pdf-placeholder" data-pdf-id="${pdfId}" data-pdf-url="${pdfUrl}" data-pdf-title="${linkText.replace(/<[^>]*>/g, '')}"></div>`;
+      processedHtml = processedHtml.replace(fullMatch, placeholder);
+    }
   }
   
   return {
