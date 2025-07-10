@@ -25,6 +25,25 @@ export function formatDate(dateString: string): { day: string; month: string } {
 }
 
 /**
+ * Extract the first image URL from HTML content
+ * @param html - The HTML content to search for images
+ * @returns The URL of the first image found, or null if none found
+ */
+export function extractFirstImageFromContent(html: string): string | null {
+  if (!html) return null;
+  
+  // Try to find img tags with src attribute
+  const imgRegex = /<img[^>]*src="([^"]*)"[^>]*>/i;
+  const match = html.match(imgRegex);
+  
+  if (match && match[1]) {
+    return match[1];
+  }
+  
+  return null;
+}
+
+/**
  * Process HTML content to replace PDF links with PDF viewer components
  * @param html - The HTML content from WordPress
  * @returns Object containing processed HTML and PDF URLs found

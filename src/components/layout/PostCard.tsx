@@ -3,7 +3,11 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
 import { WordPressPost } from "@/lib/type";
-import { formatDate, decodeHtmlEntities } from "@/lib/utils";
+import {
+  formatDate,
+  decodeHtmlEntities,
+  extractFirstImageFromContent,
+} from "@/lib/utils";
 
 interface PostCardProps {
   product: WordPressPost;
@@ -13,15 +17,33 @@ export default function PostCard({ product }: PostCardProps) {
   const { day, month } = formatDate(product.date);
   const decodedTitle = decodeHtmlEntities(product.title.rendered);
 
+  // Get image URL with fallback logic
+  const getImageUrl = () => {
+    // First try to get featured media
+    const featuredImage =
+      product._embedded?.["wp:featuredmedia"]?.[0]?.source_url;
+    if (featuredImage) {
+      return featuredImage;
+    }
+
+    // If no featured image, try to extract from content
+    const contentImage = extractFirstImageFromContent(product.content.rendered);
+    if (contentImage) {
+      return contentImage;
+    }
+
+    // Fallback to default image
+    return "/home-n.png";
+  };
+
+  const imageUrl = getImageUrl();
+
   return (
     <Card className="w-full max-w-sm md:max-w-sm overflow-hidden bg-white shadow-lg gap-2 p-0 mx-auto">
       <div className="relative">
         <div className="aspect-square bg-gray-50">
           <Image
-            src={
-              product._embedded?.["wp:featuredmedia"]?.[0]?.source_url ||
-              "/home-n.png"
-            }
+            src={imageUrl}
             alt={decodedTitle}
             width={400}
             height={400}
