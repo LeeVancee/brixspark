@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
+import type { WordPressPost } from "./type"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -49,7 +50,7 @@ export function extractFirstImageFromContent(html: string): string | null {
  * @param fallbackImage - The fallback image URL if no image is found
  * @returns The URL of the post image
  */
-export function getPostImageUrl(post: any, fallbackImage: string = "/home-n.png"): string {
+export function getPostImageUrl(post: WordPressPost, fallbackImage: string = "/home-n.png"): string {
   // First try to get featured media
   const featuredImage = post._embedded?.["wp:featuredmedia"]?.[0]?.source_url;
   if (featuredImage) {

@@ -1,5 +1,4 @@
 // WordPress Post Types
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface WordPressPost {
   id: number;
   date: string;
