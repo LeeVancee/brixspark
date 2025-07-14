@@ -44,6 +44,29 @@ export function extractFirstImageFromContent(html: string): string | null {
 }
 
 /**
+ * Get the post image URL with fallback logic
+ * @param post - The WordPress post object
+ * @param fallbackImage - The fallback image URL if no image is found
+ * @returns The URL of the post image
+ */
+export function getPostImageUrl(post: any, fallbackImage: string = "/home-n.png"): string {
+  // First try to get featured media
+  const featuredImage = post._embedded?.["wp:featuredmedia"]?.[0]?.source_url;
+  if (featuredImage) {
+    return featuredImage;
+  }
+
+  // If no featured image, try to extract from content
+  const contentImage = extractFirstImageFromContent(post.content.rendered);
+  if (contentImage) {
+    return contentImage;
+  }
+
+  // Fallback to default image
+  return fallbackImage;
+}
+
+/**
  * Process HTML content to replace PDF links with PDF viewer components
  * @param html - The HTML content from WordPress
  * @returns Object containing processed HTML and PDF URLs found

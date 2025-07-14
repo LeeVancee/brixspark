@@ -4,7 +4,7 @@ import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import { WordPressPost } from "@/lib/type";
 import { Card } from "../ui/card";
-import { formatDate, decodeHtmlEntities } from "@/lib/utils";
+import { formatDate, decodeHtmlEntities, getPostImageUrl } from "@/lib/utils";
 import {
   Carousel,
   CarouselContent,
@@ -64,10 +64,7 @@ export default function RelatedProducts({ posts }: RelatedProductsProps) {
                   <div className="relative">
                     <div className="aspect-square bg-gray-50">
                       <Image
-                        src={
-                          post._embedded?.["wp:featuredmedia"]?.[0]
-                            ?.source_url || "/home-n.png"
-                        }
+                        src={getPostImageUrl(post)}
                         alt={decodeHtmlEntities(post.title.rendered)}
                         width={400}
                         height={400}

@@ -4,19 +4,10 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useSearchForm } from "@/hooks/useSearchForm";
 
 export default function HomePage() {
-  const [searchQuery, setSearchQuery] = useState("");
-  const router = useRouter();
-
-  const handleSubmit = (e?: React.FormEvent) => {
-    e?.preventDefault();
-    if (searchQuery.trim()) {
-      router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
-    }
-  };
+  const { searchQuery, isLoading, handleSubmit, handleQueryChange } = useSearchForm();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 relative overflow-hidden">
@@ -43,7 +34,7 @@ export default function HomePage() {
               <form onSubmit={handleSubmit} className="flex gap-2">
                 <Input
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onChange={(e) => handleQueryChange(e.target.value)}
                   placeholder="Search..."
                   className="flex-1 h-12 text-base bg-white border-white/20 placeholder:text-gray-500"
                 />
@@ -51,9 +42,13 @@ export default function HomePage() {
                   type="submit"
                   size="lg"
                   className="h-12 px-6 bg-gray-900 hover:bg-gray-800 text-white disabled:opacity-50"
-                  disabled={!searchQuery.trim()}
+                  disabled={!searchQuery.trim() || isLoading}
                 >
-                  <Search className="w-5 h-5" />
+                  {isLoading ? (
+                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  ) : (
+                    <Search className="w-5 h-5" />
+                  )}
                 </Button>
               </form>
             </div>
