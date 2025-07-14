@@ -10,11 +10,8 @@ export function useSearchForm() {
     e.preventDefault();
     if (searchQuery.trim()) {
       setIsLoading(true);
-      try {
-          router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
-      } finally {
-        setIsLoading(false);
-      }
+      router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+      // 不设置 setIsLoading(false)，让路由跳转时保持 loading 状态
     }
   };
 
