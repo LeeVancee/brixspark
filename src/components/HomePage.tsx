@@ -7,7 +7,8 @@ import { Search } from "lucide-react";
 import { useSearchForm } from "@/hooks/useSearchForm";
 
 export default function HomePage() {
-  const { searchQuery, isLoading, handleSubmit, handleQueryChange } = useSearchForm();
+  const { searchQuery, isLoading, handleSubmit, handleQueryChange } =
+    useSearchForm();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 relative overflow-hidden">
@@ -56,14 +57,16 @@ export default function HomePage() {
 
           {/* LEGO Person Image Section - Order 2 on mobile, Order 1 on desktop */}
           <div className="w-full lg:w-1/2 flex justify-center lg:justify-start order-2 lg:order-1 mt-12 lg:mt-0">
-            <div className="relative z-5">
+            <div className="w-3/4 sm:w-2/3 md:w-3/5 lg:w-4/5 h-auto transform translate-y-16 translate-x-0 lg:translate-y-32 lg:translate-x-40">
               <Image
-                src="/home-n.png"
+                src="/logo.png"
                 alt="LEGO Person with Instructions"
-                width={381}
-                height={528}
-                className="max-w-full h-auto w-3/4 md:w-auto transform translate-y-16 translate-x-0 lg:translate-y-32 lg:translate-x-40"
+                width={305}
+                height={422}
+                className="w-full h-full object-contain"
                 priority
+                quality={90}
+                sizes="(max-width: 640px) 75vw, (max-width: 768px) 67vw, (max-width: 1024px) 60vw, 40vw"
               />
             </div>
           </div>
